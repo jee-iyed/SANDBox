@@ -1,0 +1,10 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+sqlalchemy>=2.0
+psycopg[binary]>=3.1
+pydantic-settings>=2.3
+python-multipart>=0.0.9
+httpx>=0.27
+docker>=7.0
+yara-python==4.5.4
+oletools==0.60.2

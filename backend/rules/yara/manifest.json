@@ -1,0 +1,42 @@
+{
+  "name": "SANDBox-M4-YARA",
+  "source": "Yara-Rules/rules",
+  "source_url": "https://github.com/Yara-Rules/rules",
+  "revision": "0f93570194a80d2f2032869055808b0ddcdfb360",
+  "integration_date": "2026-09-04",
+  "license": "GPL-2.0",
+  "license_url": "https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/LICENSE",
+  "engine_compatibility": "YARA >= 3.0; validated with yara-python 4.5.4",
+  "selected_rules": [
+    {
+      "path": "vendor/yararules/maldocs/Maldoc_DDE.yar",
+      "category": "maldocs",
+      "source_file": "maldocs/Maldoc_DDE.yar",
+      "modules": []
+    },
+    {
+      "path": "vendor/yararules/maldocs/Maldoc_VBA_macro_code.yar",
+      "category": "maldocs",
+      "source_file": "maldocs/Maldoc_VBA_macro_code.yar",
+      "modules": []
+    },
+    {
+      "path": "vendor/yararules/malware/MALW_XMRIG_Miner.yar",
+      "category": "malware",
+      "source_file": "malware/MALW_XMRIG_Miner.yar",
+      "modules": []
+    },
+    {
+      "path": "vendor/yararules/capabilities/inject_thread.yar",
+      "category": "capabilities",
+      "source_file": "capabilities/capabilities.yar#inject_thread",
+      "modules": []
+    },
+    {
+      "path": "selected/project/m4_project.yar",
+      "category": "project",
+      "source_file": null,
+      "modules": []
+    }
+  ]
+}
