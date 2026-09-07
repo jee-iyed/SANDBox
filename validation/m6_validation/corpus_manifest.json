@@ -1,0 +1,1338 @@
+[
+  {
+    "filename": "b_01.txt",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "plain text",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_02.txt",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "plain text",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_03.txt",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "plain text",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_04.txt",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "plain text",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_05.txt",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "plain text",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_06.txt",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "plain text",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_07.json",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless JSON",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_08.json",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless JSON",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_09.json",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless JSON",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_10.json",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless JSON",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_11.csv",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless CSV",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_12.csv",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless CSV",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_13.csv",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless CSV",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_14.csv",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless CSV",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_15.html",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless HTML",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_16.html",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless HTML",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_17.html",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless HTML",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_18.pdf",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "benign PDF, no active markers",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_19.pdf",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "benign PDF, no active markers",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_20.pdf",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "benign PDF, no active markers",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_21.zip",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "benign ZIP archive",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_22.zip",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "benign ZIP archive",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_23.zip",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "benign ZIP archive",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_24.png",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "PNG magic + inert padding",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_25.png",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "PNG magic + inert padding",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_26.rtf",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "harmless RTF",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_27.docx",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "benign OOXML docx",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_28.docx",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "benign OOXML docx",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_29.py",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "python source that only prints; M5 executes, no behavioral findings",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "b_30.sh",
+    "category": "benign",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "shell script that only prints; M5 executes, no behavioral findings; M2 heuristic embedded_shell (LOW) expected",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_01.txt",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara"
+    ],
+    "expected_rules": [
+      "SANDBOX_M4_TEST_MARKER"
+    ],
+    "expected_findings": [
+      "yara_match"
+    ],
+    "notes": "project test marker rule",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_02.txt",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara"
+    ],
+    "expected_rules": [
+      "SANDBOX_M4_TEST_MARKER"
+    ],
+    "expected_findings": [
+      "yara_match"
+    ],
+    "notes": "project test marker rule",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_03.txt",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara"
+    ],
+    "expected_rules": [
+      "SANDBOX_M4_TEST_MARKER"
+    ],
+    "expected_findings": [
+      "yara_match"
+    ],
+    "notes": "project test marker rule",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_04.txt",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara"
+    ],
+    "expected_rules": [
+      "SANDBOX_M4_TEST_MARKER"
+    ],
+    "expected_findings": [
+      "yara_match"
+    ],
+    "notes": "project test marker rule",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_05.pdf",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "SANDBOX_PDF_ACTIVE_CONTENT"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_pdf_active_content"
+    ],
+    "notes": "PDF active-content YARA rule; also structural marker",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_06.pdf",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "SANDBOX_PDF_ACTIVE_CONTENT"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_pdf_active_content"
+    ],
+    "notes": "PDF active-content YARA rule; also structural marker",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_07.pdf",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "SANDBOX_PDF_ACTIVE_CONTENT"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_pdf_active_content"
+    ],
+    "notes": "PDF active-content YARA rule; also structural marker",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_08.pdf",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "SANDBOX_PDF_ACTIVE_CONTENT"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_pdf_active_content"
+    ],
+    "notes": "PDF active-content YARA rule; also structural marker",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_09.doc",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "Contains_DDE_Protocol"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_office_macro"
+    ],
+    "notes": "upstream DDE rule; OLE magic also structural",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_10.doc",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "Contains_DDE_Protocol"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_office_macro"
+    ],
+    "notes": "upstream DDE rule; OLE magic also structural",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_11.doc",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "Contains_DDE_Protocol"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_office_macro"
+    ],
+    "notes": "upstream DDE rule; OLE magic also structural",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_12.doc",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "Contains_VBA_macro_code"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_office_macro"
+    ],
+    "notes": "upstream VBA-macro rule; OLE magic also structural",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_13.doc",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "Contains_VBA_macro_code"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_office_macro"
+    ],
+    "notes": "upstream VBA-macro rule; OLE magic also structural",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_14.doc",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "Contains_VBA_macro_code"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_office_macro"
+    ],
+    "notes": "upstream VBA-macro rule; OLE magic also structural",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_15.txt",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara"
+    ],
+    "expected_rules": [
+      "XMRIG_Miner"
+    ],
+    "expected_findings": [
+      "yara_match"
+    ],
+    "notes": "upstream XMRIG miner rule (inert text)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_16.txt",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara"
+    ],
+    "expected_rules": [
+      "XMRIG_Miner"
+    ],
+    "expected_findings": [
+      "yara_match"
+    ],
+    "notes": "upstream XMRIG miner rule (inert text)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_17.txt",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara"
+    ],
+    "expected_rules": [
+      "XMRIG_Miner"
+    ],
+    "expected_findings": [
+      "yara_match"
+    ],
+    "notes": "upstream XMRIG miner rule (inert text)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_18.txt",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara"
+    ],
+    "expected_rules": [
+      "inject_thread"
+    ],
+    "expected_findings": [
+      "yara_match"
+    ],
+    "notes": "upstream capabilities inject_thread rule (inert text)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_19.txt",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara"
+    ],
+    "expected_rules": [
+      "inject_thread"
+    ],
+    "expected_findings": [
+      "yara_match"
+    ],
+    "notes": "upstream capabilities inject_thread rule (inert text)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "y_20.txt",
+    "category": "yara",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara"
+    ],
+    "expected_rules": [
+      "inject_thread"
+    ],
+    "expected_findings": [
+      "yara_match"
+    ],
+    "notes": "upstream capabilities inject_thread rule (inert text)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_01.pdf",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_pdf_active_content"
+    ],
+    "notes": "PDF /Launch marker (no YARA JS+OpenAction)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_02.pdf",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_pdf_active_content"
+    ],
+    "notes": "PDF /Launch marker (no YARA JS+OpenAction)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_03.pdf",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_pdf_active_content"
+    ],
+    "notes": "PDF /EmbeddedFile marker",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_04.pdf",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_pdf_active_content"
+    ],
+    "notes": "PDF /EmbeddedFile marker",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_05.zip",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_office_macro"
+    ],
+    "notes": "stored VBAProject marker in zip (YARA VBA needs vbaProject.bin)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_06.zip",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_office_macro"
+    ],
+    "notes": "stored VBAProject marker in zip (YARA VBA needs vbaProject.bin)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_07.doc",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_office_macro"
+    ],
+    "notes": "OLE magic only (no DDE/VBA strings)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_08.doc",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_office_macro"
+    ],
+    "notes": "OLE magic only (no DDE/VBA strings)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_09.zip",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_nested_archive"
+    ],
+    "notes": "nested zip depth 2 (INFO finding + objects)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_10.zip",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_nested_archive"
+    ],
+    "notes": "nested zip depth 2 (INFO finding + objects)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_11.zip",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_nested_archive"
+    ],
+    "notes": "nested zip depth 2 (INFO finding + objects)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_12.bin",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_malformed_archive"
+    ],
+    "notes": "malformed archive (PK magic + garbage)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_13.bin",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_malformed_archive"
+    ],
+    "notes": "malformed archive (PK magic + garbage)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_14.zip",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_archive_limit"
+    ],
+    "notes": "high compression ratio (>200x). HIGH finding triggers M5 suspicion execution (fails safely, no behavioral findings)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_15.zip",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_archive_limit"
+    ],
+    "notes": "high compression ratio (>200x). HIGH finding triggers M5 suspicion execution (fails safely, no behavioral findings)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_16.zip",
+    "category": "structural",
+    "expected_detection": false,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "multi-entry archive: no detection finding, entries listed in payload objects",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_17.zip",
+    "category": "structural",
+    "expected_detection": false,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "multi-entry archive: no detection finding, entries listed in payload objects",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "s_18.zip",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_nested_archive"
+    ],
+    "notes": "nesting: 6 nested zips = depth 5 in engine terms (top-level=0) -> nested finding only; no limit breach",
+    "invalid_expectation": true,
+    "invalid_reason": "original expectation (limit at depth 6) mis-derived: top-level zip is depth 0, so 6 zips reach depth 5, never exceeding max_archive_depth=5"
+  },
+  {
+    "filename": "s_19.zip",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_nested_archive"
+    ],
+    "notes": "nesting: 6 nested zips = depth 5 in engine terms (top-level=0) -> nested finding only; no limit breach",
+    "invalid_expectation": true,
+    "invalid_reason": "original expectation (limit at depth 6) mis-derived: top-level zip is depth 0, so 6 zips reach depth 5, never exceeding max_archive_depth=5"
+  },
+  {
+    "filename": "s_20.zip",
+    "category": "structural",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "structural_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "structural_office_macro"
+    ],
+    "notes": "stored VBAProject mention (no vbaProject.bin -> no YARA)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "d_01.sh",
+    "category": "dynamic",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "benign script executed; no behavioral findings (M2 embedded_shell LOW expected)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "d_02.sh",
+    "category": "dynamic",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "sandbox"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "process_creation",
+      "shell_execution"
+    ],
+    "notes": "child shell spawn",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "d_03.sh",
+    "category": "dynamic",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "sandbox"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "process_creation",
+      "shell_execution",
+      "suspicious_command"
+    ],
+    "notes": "suspicious curl|sh command in child argv (inert echo). NOTE: strace truncates argv to 32 chars -> known engine FN, reported as limitation",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "d_04.sh",
+    "category": "dynamic",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "sandbox",
+      "static_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "process_creation",
+      "shell_execution",
+      "suspicious_command",
+      "static_reverse_shell",
+      "static_ipv4_literal"
+    ],
+    "notes": "netcat pattern in argv (dynamic) + reverse-shell/IP bytes in content (static)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "d_05.sh",
+    "category": "dynamic",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "sandbox"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "file_creation"
+    ],
+    "notes": "file creation observed in sandbox tmpfs",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "d_06.py",
+    "category": "dynamic",
+    "expected_detection": false,
+    "expected_analyzers": [],
+    "expected_rules": [],
+    "expected_findings": [],
+    "notes": "python executed; no behavioral findings",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "d_07.py",
+    "category": "dynamic",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "sandbox",
+      "static_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "network_attempt",
+      "dns_request",
+      "static_ipv4_literal"
+    ],
+    "notes": "DNS attempt port 53 (blocked, DENY policy) + IPv4 literal (static)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "d_08.sh",
+    "category": "dynamic",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "sandbox"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "process_creation",
+      "shell_execution"
+    ],
+    "notes": "second child shell variant",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "d_09.sh",
+    "category": "dynamic",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "sandbox"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "process_creation",
+      "shell_execution"
+    ],
+    "notes": "double child shell spawn (2x process_creation + shell_execution)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "d_10.sh",
+    "category": "dynamic",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "sandbox"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "process_creation",
+      "shell_execution",
+      "suspicious_command"
+    ],
+    "notes": "chmod +x pattern in argv (inert echo)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "m_01.pdf",
+    "category": "mixed",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "SANDBOX_PDF_ACTIVE_CONTENT",
+      "SANDBOX_M4_TEST_MARKER"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_pdf_active_content"
+    ],
+    "notes": "YARA + structural on same PDF",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "m_02.sh",
+    "category": "mixed",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "static_analysis"
+    ],
+    "expected_rules": [],
+    "expected_findings": [
+      "static_test_malware_marker"
+    ],
+    "notes": "benign script + CRITICAL static marker; M5 executes, no behavioral findings",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "m_03.sh",
+    "category": "mixed",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "sandbox"
+    ],
+    "expected_rules": [
+      "SANDBOX_M4_TEST_MARKER"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "process_creation",
+      "shell_execution",
+      "suspicious_command"
+    ],
+    "notes": "YARA marker + suspicious child command. NOTE: suspicious_command missed by engine (strace 32-char argv truncation) -> known FN, reported as limitation",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "m_04.docx",
+    "category": "mixed",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "Contains_VBA_macro_code"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_office_macro"
+    ],
+    "notes": "VBA zip: YARA VBA + structural office. XMRIG string sits inside a DEFLATED entry -> invisible to raw-byte YARA scan",
+    "invalid_expectation": true,
+    "invalid_reason": "expected XMRIG_Miner rule: YARA scans raw bytes only (no zip decompression), the string is deflated inside the archive"
+  },
+  {
+    "filename": "m_05.bin",
+    "category": "mixed",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "XMRIG_Miner"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_malformed_archive"
+    ],
+    "notes": "malformed archive + miner string (YARA + structural malformed)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "m_06.zip",
+    "category": "mixed",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "SANDBOX_M4_TEST_MARKER"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_nested_archive"
+    ],
+    "notes": "nested archive carrying the YARA marker (stored)",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "m_07.doc",
+    "category": "mixed",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "Contains_DDE_Protocol",
+      "Contains_VBA_macro_code"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_office_macro"
+    ],
+    "notes": "OLE with DDE + VBA: two YARA rules + structural office",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "m_08.pdf",
+    "category": "mixed",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "SANDBOX_PDF_ACTIVE_CONTENT"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_pdf_active_content"
+    ],
+    "notes": "YARA + structural via two analyzers on same PDF",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "m_09.py",
+    "category": "mixed",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "sandbox",
+      "static_analysis"
+    ],
+    "expected_rules": [
+      "SANDBOX_M4_TEST_MARKER"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "network_attempt",
+      "dns_request",
+      "static_ipv4_literal"
+    ],
+    "notes": "YARA marker + dynamic DNS attempt + static IP literal",
+    "invalid_expectation": false,
+    "invalid_reason": null
+  },
+  {
+    "filename": "m_10.zip",
+    "category": "mixed",
+    "expected_detection": true,
+    "expected_analyzers": [
+      "yara",
+      "structural_analysis"
+    ],
+    "expected_rules": [
+      "Contains_VBA_macro_code"
+    ],
+    "expected_findings": [
+      "yara_match",
+      "structural_office_macro"
+    ],
+    "notes": "VBA zip: YARA VBA + structural office. XMRIG string deflated inside archive -> invisible to raw-byte YARA",
+    "invalid_expectation": true,
+    "invalid_reason": "expected XMRIG_Miner rule: YARA scans raw bytes only (no zip decompression), the string is deflated inside the archive"
+  }
+]

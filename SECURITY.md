@@ -92,8 +92,9 @@ Décisions et règles de sécurité transverses au projet. Statut : vivant.
 - **Politique réseau : DENY par défaut.** Aucun accès Internet, aucune connexion entrante hôte. Les
   tentatives (dont port 53) sont enregistrées `blocked=true` en evidence — on n'invente jamais de
   connexion réussie.
-- **Bornes** : events ≤ `dynamic_max_events`, sortie conteneur lue ≤ `dynamic_max_output_mb`, argv
-  tronqué (16 args × 256 octets), evidence bornée. Un timeout, un crash ou une erreur Docker ne
+- **Bornes** : events ≤ `dynamic_max_events`, sortie conteneur lue ≤ `dynamic_max_output_mb`, `strace`
+  captures at most 256 bytes per string, argv is capped (16 args × 256 octets), evidence remains
+  bounded. Un timeout, un crash ou une erreur Docker ne
   cassent ni le scan ni le worker (`sandbox_error` explicite, cleanup `finally`).
 - **Pas d'exécution d'artefacts extraits**, pas d'analyse récursive, pas de macro/script hôte.
 - L'analyse dynamique est **bornée et n'est pas équivalente à une sandbox commerciale complète**.

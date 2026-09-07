@@ -40,8 +40,28 @@ développée phase par phase selon un brief en 18 phases. Volume cible : ~5 000 
   observable dans `AnalysisResult.payload` et l'evidence `sandbox_info`. Réutilise le sandbox durci M3
   (`strace -f`, réseau DENY, caps CPU/RAM/PIDs, cleanup garanti) + findings comportementaux
   `shell_execution`, `suspicious_command`, `dns_request` et caps `max_events`/`max_output_mb`.
+  `strace -s 256` preserves bounded command evidence beyond its 32-byte default; the worker uses
+  four bounded DB-locked workers and does not sleep between already queued scans.
   L'analyse dynamique est **bornée** : ce n'est pas une sandbox commerciale complète.
 - ⬜ M6–M8 : corrélation/risque (calibrage), IA, CDR, productisation.
+
+## Supervisor Test / Current Status
+
+- **M1–M5 functional validation : PASS** — full regression suite green (smoke, fast scan 27/27,
+  sandbox behavior 8/8 + normalizer/isolation, static 14/14 + 10/10, YARA 7/7 + 3/3, M5 8/8 + 14/14).
+- **YARA validation : PASS** (TP 27 / FP 0 / FN 0 sur corpus synthétique).
+- **Dynamic behavioral validation : PASS** (TP 10 / FP 0 / FN 0 au niveau source ; 2 FN type
+  `suspicious_command` documentés, corrigés depuis par `strace -s 256`).
+- **Sandbox security validation : PASS** (réseau DENY, rootfs RO, non-root, `cap_drop=ALL`,
+  `no-new-privileges`, limites CPU/RAM/PIDs, cleanup garanti — 0 conteneur orphelin).
+- **Performance target (5 000 files / 60 min) : NOT YET ACHIEVED** — benchmark local 90 fichiers :
+  199,79 s → **27 files/min** (cible 90 files/min). Le goulot mesuré est le cycle de vie des
+  conteneurs Docker Desktop (create+start+remove ≈ 14–30 s/conteneur) dans l'environnement courant,
+  pas le code d'analyse (exécution+strace+collecte < 0,2 s). Voir
+  [`validation/m6_validation/results/SANDBOX_LIFECYCLE_PROFILE.md`](validation/m6_validation/results/SANDBOX_LIFECYCLE_PROFILE.md).
+- **No real malware used** — tous les échantillons de validation sont synthétiques et inertes.
+- Validation supplémentaire M6 : [`validation/m6_validation/`](validation/m6_validation/) (corpus 90
+  fichiers, scripts de benchmark, matrices de détection, profilage du cycle de vie sandbox).
 
 ## Démarrage rapide
 

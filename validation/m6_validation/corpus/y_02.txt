@@ -1,0 +1,2 @@
+SANDBOX_M4_YARA_TEST_MARKER variant 1
+padding

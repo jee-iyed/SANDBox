@@ -72,6 +72,7 @@ class SandboxRunner:
                 environment={
                     "SANDBOX_EXEC_TIMEOUT_S": str(self.policy.exec_timeout_s),
                     "SANDBOX_MAX_EVENTS": str(self.policy.max_events),
+                    "SANDBOX_STRACE_STRING_SIZE": str(self.policy.strace_string_size),
                 },
                 mounts=[
                     Mount(

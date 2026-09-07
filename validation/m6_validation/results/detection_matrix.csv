@@ -1,0 +1,91 @@
+filename,category,status,verdict,risk_score,expected_sources,actual_sources,expected_findings,actual_findings,expected_rules,actual_rules,missing_sources,extra_sources,missing_types,missing_rules,result,notes
+b_01.txt,benign,completed,safe,0.0,,,,,,,,,,,PASS,plain text
+b_02.txt,benign,completed,safe,0.0,,,,,,,,,,,PASS,plain text
+b_03.txt,benign,completed,safe,0.0,,,,,,,,,,,PASS,plain text
+b_04.txt,benign,completed,safe,0.0,,,,,,,,,,,PASS,plain text
+b_05.txt,benign,completed,safe,0.0,,,,,,,,,,,PASS,plain text
+b_06.txt,benign,completed,safe,0.0,,,,,,,,,,,PASS,plain text
+b_07.json,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless JSON
+b_08.json,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless JSON
+b_09.json,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless JSON
+b_10.json,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless JSON
+b_11.csv,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless CSV
+b_12.csv,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless CSV
+b_13.csv,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless CSV
+b_14.csv,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless CSV
+b_15.html,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless HTML
+b_16.html,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless HTML
+b_17.html,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless HTML
+b_18.pdf,benign,completed,safe,0.0,,,,,,,,,,,PASS,"benign PDF, no active markers"
+b_19.pdf,benign,completed,safe,0.0,,,,,,,,,,,PASS,"benign PDF, no active markers"
+b_20.pdf,benign,completed,safe,0.0,,,,,,,,,,,PASS,"benign PDF, no active markers"
+b_21.zip,benign,completed,safe,0.0,,,,,,,,,,,PASS,benign ZIP archive
+b_22.zip,benign,completed,safe,0.0,,,,,,,,,,,PASS,benign ZIP archive
+b_23.zip,benign,completed,safe,0.0,,,,,,,,,,,PASS,benign ZIP archive
+b_24.png,benign,completed,safe,0.0,,,,,,,,,,,PASS,PNG magic + inert padding
+b_25.png,benign,completed,safe,0.0,,,,,,,,,,,PASS,PNG magic + inert padding
+b_26.rtf,benign,completed,safe,0.0,,,,,,,,,,,PASS,harmless RTF
+b_27.docx,benign,completed,safe,0.0,,,,,,,,,,,PASS,benign OOXML docx
+b_28.docx,benign,completed,safe,0.0,,,,,,,,,,,PASS,benign OOXML docx
+b_29.py,benign,completed,safe,0.0,,,,,,,,,,,PASS,"python source that only prints; M5 executes, no behavioral findings"
+b_30.sh,benign,completed,suspicious,3.0,,,,,,,,,,,PASS,"shell script that only prints; M5 executes, no behavioral findings; M2 heuristic embedded_shell (LOW) expected"
+y_01.txt,yara,completed,suspicious,27.0,yara,yara,yara_match,yara_match,SANDBOX_M4_TEST_MARKER,SANDBOX_M4_TEST_MARKER,,,,,PASS,project test marker rule
+y_02.txt,yara,completed,suspicious,27.0,yara,yara,yara_match,yara_match,SANDBOX_M4_TEST_MARKER,SANDBOX_M4_TEST_MARKER,,,,,PASS,project test marker rule
+y_03.txt,yara,completed,suspicious,27.0,yara,yara,yara_match,yara_match,SANDBOX_M4_TEST_MARKER,SANDBOX_M4_TEST_MARKER,,,,,PASS,project test marker rule
+y_04.txt,yara,completed,suspicious,27.0,yara,yara,yara_match,yara_match,SANDBOX_M4_TEST_MARKER,SANDBOX_M4_TEST_MARKER,,,,,PASS,project test marker rule
+y_05.pdf,yara,completed,suspicious,54.0,"structural_analysis,yara","structural_analysis,yara","structural_pdf_active_content,yara_match","structural_pdf_active_content,yara_match",SANDBOX_PDF_ACTIVE_CONTENT,SANDBOX_PDF_ACTIVE_CONTENT,,,,,PASS,PDF active-content YARA rule; also structural marker
+y_06.pdf,yara,completed,suspicious,54.0,"structural_analysis,yara","structural_analysis,yara","structural_pdf_active_content,yara_match","structural_pdf_active_content,yara_match",SANDBOX_PDF_ACTIVE_CONTENT,SANDBOX_PDF_ACTIVE_CONTENT,,,,,PASS,PDF active-content YARA rule; also structural marker
+y_07.pdf,yara,completed,suspicious,54.0,"structural_analysis,yara","structural_analysis,yara","structural_pdf_active_content,yara_match","structural_pdf_active_content,yara_match",SANDBOX_PDF_ACTIVE_CONTENT,SANDBOX_PDF_ACTIVE_CONTENT,,,,,PASS,PDF active-content YARA rule; also structural marker
+y_08.pdf,yara,completed,suspicious,54.0,"structural_analysis,yara","structural_analysis,yara","structural_pdf_active_content,yara_match","structural_pdf_active_content,yara_match",SANDBOX_PDF_ACTIVE_CONTENT,SANDBOX_PDF_ACTIVE_CONTENT,,,,,PASS,PDF active-content YARA rule; also structural marker
+y_09.doc,yara,completed,suspicious,25.5,"structural_analysis,yara","structural_analysis,yara","structural_office_macro,yara_match","structural_office_macro,yara_match",Contains_DDE_Protocol,Contains_DDE_Protocol,,,,,PASS,upstream DDE rule; OLE magic also structural
+y_10.doc,yara,completed,suspicious,25.5,"structural_analysis,yara","structural_analysis,yara","structural_office_macro,yara_match","structural_office_macro,yara_match",Contains_DDE_Protocol,Contains_DDE_Protocol,,,,,PASS,upstream DDE rule; OLE magic also structural
+y_11.doc,yara,completed,suspicious,25.5,"structural_analysis,yara","structural_analysis,yara","structural_office_macro,yara_match","structural_office_macro,yara_match",Contains_DDE_Protocol,Contains_DDE_Protocol,,,,,PASS,upstream DDE rule; OLE magic also structural
+y_12.doc,yara,completed,suspicious,28.5,"structural_analysis,yara","structural_analysis,yara","structural_office_macro,yara_match","structural_office_macro,yara_match",Contains_VBA_macro_code,Contains_VBA_macro_code,,,,,PASS,upstream VBA-macro rule; OLE magic also structural
+y_13.doc,yara,completed,suspicious,28.5,"structural_analysis,yara","structural_analysis,yara","structural_office_macro,yara_match","structural_office_macro,yara_match",Contains_VBA_macro_code,Contains_VBA_macro_code,,,,,PASS,upstream VBA-macro rule; OLE magic also structural
+y_14.doc,yara,completed,suspicious,28.5,"structural_analysis,yara","structural_analysis,yara","structural_office_macro,yara_match","structural_office_macro,yara_match",Contains_VBA_macro_code,Contains_VBA_macro_code,,,,,PASS,upstream VBA-macro rule; OLE magic also structural
+y_15.txt,yara,completed,safe,0.0,yara,yara,yara_match,yara_match,XMRIG_Miner,XMRIG_Miner,,,,,PASS,upstream XMRIG miner rule (inert text)
+y_16.txt,yara,completed,safe,0.0,yara,yara,yara_match,yara_match,XMRIG_Miner,XMRIG_Miner,,,,,PASS,upstream XMRIG miner rule (inert text)
+y_17.txt,yara,completed,safe,0.0,yara,yara,yara_match,yara_match,XMRIG_Miner,XMRIG_Miner,,,,,PASS,upstream XMRIG miner rule (inert text)
+y_18.txt,yara,completed,safe,0.0,yara,yara,yara_match,yara_match,inject_thread,inject_thread,,,,,PASS,upstream capabilities inject_thread rule (inert text)
+y_19.txt,yara,completed,safe,0.0,yara,yara,yara_match,yara_match,inject_thread,inject_thread,,,,,PASS,upstream capabilities inject_thread rule (inert text)
+y_20.txt,yara,completed,safe,0.0,yara,yara,yara_match,yara_match,inject_thread,inject_thread,,,,,PASS,upstream capabilities inject_thread rule (inert text)
+s_01.pdf,structural,completed,suspicious,27.0,structural_analysis,structural_analysis,structural_pdf_active_content,structural_pdf_active_content,,,,,,,PASS,PDF /Launch marker (no YARA JS+OpenAction)
+s_02.pdf,structural,completed,suspicious,27.0,structural_analysis,structural_analysis,structural_pdf_active_content,structural_pdf_active_content,,,,,,,PASS,PDF /Launch marker (no YARA JS+OpenAction)
+s_03.pdf,structural,completed,suspicious,27.0,structural_analysis,structural_analysis,structural_pdf_active_content,structural_pdf_active_content,,,,,,,PASS,PDF /EmbeddedFile marker
+s_04.pdf,structural,completed,suspicious,27.0,structural_analysis,structural_analysis,structural_pdf_active_content,structural_pdf_active_content,,,,,,,PASS,PDF /EmbeddedFile marker
+s_05.zip,structural,completed,suspicious,28.5,structural_analysis,structural_analysis,structural_office_macro,structural_office_macro,,,,,,,PASS,stored VBAProject marker in zip (YARA VBA needs vbaProject.bin)
+s_06.zip,structural,completed,suspicious,28.5,structural_analysis,structural_analysis,structural_office_macro,structural_office_macro,,,,,,,PASS,stored VBAProject marker in zip (YARA VBA needs vbaProject.bin)
+s_07.doc,structural,completed,suspicious,25.5,structural_analysis,structural_analysis,structural_office_macro,structural_office_macro,,,,,,,PASS,OLE magic only (no DDE/VBA strings)
+s_08.doc,structural,completed,suspicious,25.5,structural_analysis,structural_analysis,structural_office_macro,structural_office_macro,,,,,,,PASS,OLE magic only (no DDE/VBA strings)
+s_09.zip,structural,completed,safe,0.0,structural_analysis,structural_analysis,structural_nested_archive,structural_nested_archive,,,,,,,PASS,nested zip depth 2 (INFO finding + objects)
+s_10.zip,structural,completed,safe,0.0,structural_analysis,structural_analysis,structural_nested_archive,structural_nested_archive,,,,,,,PASS,nested zip depth 2 (INFO finding + objects)
+s_11.zip,structural,completed,safe,0.0,structural_analysis,structural_analysis,structural_nested_archive,structural_nested_archive,,,,,,,PASS,nested zip depth 2 (INFO finding + objects)
+s_12.bin,structural,completed,suspicious,27.0,structural_analysis,structural_analysis,structural_malformed_archive,structural_malformed_archive,,,,,,,PASS,malformed archive (PK magic + garbage)
+s_13.bin,structural,completed,suspicious,27.0,structural_analysis,structural_analysis,structural_malformed_archive,structural_malformed_archive,,,,,,,PASS,malformed archive (PK magic + garbage)
+s_14.zip,structural,completed,suspicious,66.5,structural_analysis,structural_analysis,structural_archive_limit,structural_archive_limit,,,,,,,PASS,"high compression ratio (>200x). HIGH finding triggers M5 suspicion execution (fails safely, no behavioral findings)"
+s_15.zip,structural,completed,suspicious,66.5,structural_analysis,structural_analysis,structural_archive_limit,structural_archive_limit,,,,,,,PASS,"high compression ratio (>200x). HIGH finding triggers M5 suspicion execution (fails safely, no behavioral findings)"
+s_16.zip,structural,completed,safe,0.0,structural_analysis,,,,,,structural_analysis,,,,PASS,"multi-entry archive: no detection finding, entries listed in payload objects"
+s_17.zip,structural,completed,safe,0.0,structural_analysis,,,,,,structural_analysis,,,,PASS,"multi-entry archive: no detection finding, entries listed in payload objects"
+s_18.zip,structural,completed,safe,0.0,structural_analysis,structural_analysis,structural_nested_archive,structural_nested_archive,,,,,,,INVALID_EXPECTATION,nesting: 6 nested zips = depth 5 in engine terms (top-level=0) -> nested finding only; no limit breach
+s_19.zip,structural,completed,safe,0.0,structural_analysis,structural_analysis,structural_nested_archive,structural_nested_archive,,,,,,,INVALID_EXPECTATION,nesting: 6 nested zips = depth 5 in engine terms (top-level=0) -> nested finding only; no limit breach
+s_20.zip,structural,completed,suspicious,28.5,structural_analysis,structural_analysis,structural_office_macro,structural_office_macro,,,,,,,PASS,stored VBAProject mention (no vbaProject.bin -> no YARA)
+d_01.sh,dynamic,completed,suspicious,3.0,,,,,,,,,,,PASS,benign script executed; no behavioral findings (M2 embedded_shell LOW expected)
+d_02.sh,dynamic,completed,suspicious,34.0,sandbox,sandbox,"process_creation,shell_execution","process_creation,shell_execution",,,,,,,PASS,child shell spawn
+d_03.sh,dynamic,completed,malicious,121.0,sandbox,sandbox,"process_creation,shell_execution,suspicious_command","process_creation,shell_execution,suspicious_command",,,,,,,PASS,"suspicious curl|sh command in child argv (inert echo). NOTE: strace truncates argv to 32 chars -> known engine FN, reported as limitation"
+d_04.sh,dynamic,completed,malicious,152.0,"sandbox,static_analysis","sandbox,static_analysis","process_creation,shell_execution,static_ipv4_literal,static_reverse_shell,suspicious_command","process_creation,shell_execution,static_ipv4_literal,static_reverse_shell,suspicious_command",,,,,,,PASS,netcat pattern in argv (dynamic) + reverse-shell/IP bytes in content (static)
+d_05.sh,dynamic,completed,suspicious,31.0,sandbox,sandbox,file_creation,"file_creation,process_creation",,,,,,,PASS,file creation observed in sandbox tmpfs
+d_06.py,dynamic,completed,safe,0.0,,,,,,,,,,,PASS,python executed; no behavioral findings
+d_07.py,dynamic,completed,malicious,139.0,"sandbox,static_analysis","sandbox,static_analysis","dns_request,network_attempt,static_ipv4_literal","dns_request,network_attempt,static_ipv4_literal",,,,,,,PASS,"DNS attempt port 53 (blocked, DENY policy) + IPv4 literal (static)"
+d_08.sh,dynamic,completed,suspicious,34.0,sandbox,sandbox,"process_creation,shell_execution","process_creation,shell_execution",,,,,,,PASS,second child shell variant
+d_09.sh,dynamic,completed,suspicious,65.0,sandbox,sandbox,"process_creation,shell_execution","process_creation,shell_execution",,,,,,,PASS,double child shell spawn (2x process_creation + shell_execution)
+d_10.sh,dynamic,completed,malicious,90.0,sandbox,sandbox,"process_creation,shell_execution,suspicious_command","process_creation,shell_execution,suspicious_command",,,,,,,PASS,chmod +x pattern in argv (inert echo)
+m_01.pdf,mixed,completed,malicious,81.0,"structural_analysis,yara","structural_analysis,yara","structural_pdf_active_content,yara_match","structural_pdf_active_content,yara_match","SANDBOX_M4_TEST_MARKER,SANDBOX_PDF_ACTIVE_CONTENT","SANDBOX_M4_TEST_MARKER,SANDBOX_PDF_ACTIVE_CONTENT",,,,,PASS,YARA + structural on same PDF
+m_02.sh,mixed,completed,malicious,103.0,static_analysis,static_analysis,static_test_malware_marker,static_test_malware_marker,,,,,,,PASS,"benign script + CRITICAL static marker; M5 executes, no behavioral findings"
+m_03.sh,mixed,completed,malicious,148.0,"sandbox,yara","sandbox,yara","process_creation,shell_execution,suspicious_command,yara_match","process_creation,shell_execution,suspicious_command,yara_match",SANDBOX_M4_TEST_MARKER,SANDBOX_M4_TEST_MARKER,,,,,PASS,"YARA marker + suspicious child command. NOTE: suspicious_command missed by engine (strace 32-char argv truncation) -> known FN, reported as limitation"
+m_04.docx,mixed,completed,suspicious,25.5,"structural_analysis,yara","structural_analysis,yara","structural_office_macro,yara_match","structural_office_macro,yara_match",Contains_VBA_macro_code,Contains_VBA_macro_code,,,,,INVALID_EXPECTATION,VBA zip: YARA VBA + structural office. XMRIG string sits inside a DEFLATED entry -> invisible to raw-byte YARA scan
+m_05.bin,mixed,completed,suspicious,27.0,"structural_analysis,yara","structural_analysis,yara","structural_malformed_archive,yara_match","structural_malformed_archive,yara_match",XMRIG_Miner,XMRIG_Miner,,,,,PASS,malformed archive + miner string (YARA + structural malformed)
+m_06.zip,mixed,completed,suspicious,27.0,"structural_analysis,yara","structural_analysis,yara","structural_nested_archive,yara_match","structural_nested_archive,yara_match",SANDBOX_M4_TEST_MARKER,SANDBOX_M4_TEST_MARKER,,,,,PASS,nested archive carrying the YARA marker (stored)
+m_07.doc,mixed,completed,suspicious,28.5,"structural_analysis,yara","structural_analysis,yara","structural_office_macro,yara_match","structural_office_macro,yara_match","Contains_DDE_Protocol,Contains_VBA_macro_code","Contains_DDE_Protocol,Contains_VBA_macro_code",,,,,PASS,OLE with DDE + VBA: two YARA rules + structural office
+m_08.pdf,mixed,completed,suspicious,54.0,"structural_analysis,yara","structural_analysis,yara","structural_pdf_active_content,yara_match","structural_pdf_active_content,yara_match",SANDBOX_PDF_ACTIVE_CONTENT,SANDBOX_PDF_ACTIVE_CONTENT,,,,,PASS,YARA + structural via two analyzers on same PDF
+m_09.py,mixed,completed,malicious,166.0,"sandbox,static_analysis,yara","sandbox,static_analysis,yara","dns_request,network_attempt,static_ipv4_literal,yara_match","dns_request,network_attempt,static_ipv4_literal,yara_match",SANDBOX_M4_TEST_MARKER,SANDBOX_M4_TEST_MARKER,,,,,PASS,YARA marker + dynamic DNS attempt + static IP literal
+m_10.zip,mixed,completed,suspicious,25.5,"structural_analysis,yara","structural_analysis,yara","structural_office_macro,yara_match","structural_office_macro,yara_match",Contains_VBA_macro_code,Contains_VBA_macro_code,,,,,INVALID_EXPECTATION,VBA zip: YARA VBA + structural office. XMRIG string deflated inside archive -> invisible to raw-byte YARA

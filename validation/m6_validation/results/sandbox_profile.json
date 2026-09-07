@@ -1,0 +1,200 @@
+{
+  "policy": {
+    "image": "docscan/sandbox-runner:latest",
+    "network_disabled": true,
+    "read_only_rootfs": true,
+    "cap_drop": [
+      "ALL"
+    ],
+    "security_opt": [
+      "no-new-privileges:true"
+    ],
+    "user": "10001:10001",
+    "mem_limit": "256m",
+    "nano_cpus": 500000000,
+    "pids_limit": 64,
+    "timeout_s": 60,
+    "exec_timeout_s": 30,
+    "max_events": 2000,
+    "max_output_bytes": 1048576
+  },
+  "samples": {
+    "A_simple": {
+      "create_s": 6.238,
+      "start_s": 4.78,
+      "wait_s": 0.008,
+      "logs_s": 0.012,
+      "remove_s": 3.305,
+      "sandbox_self_duration_ms": 20.0,
+      "status": "completed",
+      "runs": [
+        {
+          "create_s": 6.261,
+          "start_s": 4.612,
+          "wait_s": 0.008,
+          "logs_s": 0.015,
+          "remove_s": 3.198,
+          "container_timestamps": {
+            "created": "2026-09-07T13:26:02.317456928Z",
+            "started": "0001-01-01T00:00:00Z",
+            "finished": "2026-09-07T13:26:10.50060789Z",
+            "exit_code": 0
+          },
+          "sandbox_self_duration_ms": 20,
+          "sandbox_status": "completed"
+        },
+        {
+          "create_s": 6.371,
+          "start_s": 4.751,
+          "wait_s": 0.007,
+          "logs_s": 0.01,
+          "remove_s": 3.253,
+          "container_timestamps": {
+            "created": "2026-09-07T13:26:16.451738405Z",
+            "started": "0001-01-01T00:00:00Z",
+            "finished": "2026-09-07T13:26:24.78720415Z",
+            "exit_code": 0
+          },
+          "sandbox_self_duration_ms": 20,
+          "sandbox_status": "completed"
+        },
+        {
+          "create_s": 6.083,
+          "start_s": 4.978,
+          "wait_s": 0.009,
+          "logs_s": 0.01,
+          "remove_s": 3.463,
+          "container_timestamps": {
+            "created": "2026-09-07T13:26:30.869091207Z",
+            "started": "0001-01-01T00:00:00Z",
+            "finished": "2026-09-07T13:26:38.905145498Z",
+            "exit_code": 0
+          },
+          "sandbox_self_duration_ms": 20,
+          "sandbox_status": "completed"
+        }
+      ]
+    },
+    "B_child": {
+      "create_s": 6.226,
+      "start_s": 4.617,
+      "wait_s": 0.013,
+      "logs_s": 0.01,
+      "remove_s": 3.256,
+      "sandbox_self_duration_ms": 76.333,
+      "status": "completed",
+      "runs": [
+        {
+          "create_s": 6.096,
+          "start_s": 4.724,
+          "wait_s": 0.016,
+          "logs_s": 0.011,
+          "remove_s": 3.21,
+          "container_timestamps": {
+            "created": "2026-09-07T13:26:45.463514093Z",
+            "started": "0001-01-01T00:00:00Z",
+            "finished": "2026-09-07T13:26:53.37742659Z",
+            "exit_code": 0
+          },
+          "sandbox_self_duration_ms": 73,
+          "sandbox_status": "completed"
+        },
+        {
+          "create_s": 6.49,
+          "start_s": 4.355,
+          "wait_s": 0.004,
+          "logs_s": 0.008,
+          "remove_s": 3.356,
+          "container_timestamps": {
+            "created": "2026-09-07T13:26:59.547827044Z",
+            "started": "0001-01-01T00:00:00Z",
+            "finished": "2026-09-07T13:27:07.926544225Z",
+            "exit_code": 0
+          },
+          "sandbox_self_duration_ms": 37,
+          "sandbox_status": "completed"
+        },
+        {
+          "create_s": 6.091,
+          "start_s": 4.772,
+          "wait_s": 0.02,
+          "logs_s": 0.01,
+          "remove_s": 3.201,
+          "container_timestamps": {
+            "created": "2026-09-07T13:27:13.811412853Z",
+            "started": "0001-01-01T00:00:00Z",
+            "finished": "2026-09-07T13:27:21.71432684Z",
+            "exit_code": 0
+          },
+          "sandbox_self_duration_ms": 119,
+          "sandbox_status": "completed"
+        }
+      ]
+    },
+    "C_longcmd": {
+      "create_s": 6.254,
+      "start_s": 4.652,
+      "wait_s": 0.016,
+      "logs_s": 0.013,
+      "remove_s": 3.285,
+      "sandbox_self_duration_ms": 38.333,
+      "status": "completed",
+      "runs": [
+        {
+          "create_s": 6.324,
+          "start_s": 4.558,
+          "wait_s": 0.012,
+          "logs_s": 0.014,
+          "remove_s": 3.415,
+          "container_timestamps": {
+            "created": "2026-09-07T13:27:27.947839026Z",
+            "started": "0001-01-01T00:00:00Z",
+            "finished": "2026-09-07T13:27:36.137067389Z",
+            "exit_code": 0
+          },
+          "sandbox_self_duration_ms": 42,
+          "sandbox_status": "completed"
+        },
+        {
+          "create_s": 6.223,
+          "start_s": 4.69,
+          "wait_s": 0.028,
+          "logs_s": 0.013,
+          "remove_s": 3.373,
+          "container_timestamps": {
+            "created": "2026-09-07T13:27:42.309238609Z",
+            "started": "0001-01-01T00:00:00Z",
+            "finished": "2026-09-07T13:27:50.372582931Z",
+            "exit_code": 0
+          },
+          "sandbox_self_duration_ms": 37,
+          "sandbox_status": "completed"
+        },
+        {
+          "create_s": 6.216,
+          "start_s": 4.709,
+          "wait_s": 0.008,
+          "logs_s": 0.013,
+          "remove_s": 3.068,
+          "container_timestamps": {
+            "created": "2026-09-07T13:27:56.657828163Z",
+            "started": "0001-01-01T00:00:00Z",
+            "finished": "2026-09-07T13:28:04.68248189Z",
+            "exit_code": 0
+          },
+          "sandbox_self_duration_ms": 36,
+          "sandbox_status": "completed"
+        }
+      ]
+    }
+  },
+  "strace_overhead_wait_delta_s": -0.001,
+  "dispatch_20_files": {
+    "submission_s": 14.63,
+    "first_done_s": 1.36,
+    "last_done_s": 14.6,
+    "mean_s": 8.47,
+    "median_s": 9.12,
+    "files_per_second": 1.37
+  }
+}

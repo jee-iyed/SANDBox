@@ -1,0 +1,63 @@
+{
+  "M1_smoke": {
+    "exit": 0,
+    "tail": "health OK: {'status': 'ok', 'database': True}\nqueued scan: {'id': 'cd1e1563-f31d-46bf-b273-71dbe7240cbf', 'status': 'queued', 'verdict': 'not_analyzed'}\nfinal: {'status': 'completed', 'verdict': 'safe', 'action': 'allow', 'risk_score': 0.0}\nsandbox finding OK: ['fast_scan', 'fast_scan', 'sandbox']\nlist OK (10 scans)\nSMOKE TEST PASSED",
+    "stderr": ""
+  },
+  "M2_fast_scan_e2e": {
+    "exit": 0,
+    "tail": "\n=== duration_ms / risk fields (representative) ===\n[PASS] risk_score present  -> risk=0.0\n\n\nRESULT: 27 passed, 0 failed",
+    "stderr": ""
+  },
+  "M3_normalizer_unit": {
+    "exit": 0,
+    "tail": "SANDBOX NORMALIZER TESTS PASSED",
+    "stderr": ""
+  },
+  "M3_isolation": {
+    "exit": 0,
+    "tail": "isolation OK: network unreachable\nisolation OK: rootfs read-only\nisolation OK: analysis roundtrip (2533ms, completed)\nSANDBOX ISOLATION TEST PASSED",
+    "stderr": ""
+  },
+  "M3_behavior_e2e": {
+    "exit": 0,
+    "tail": "[PASS] file delete -> file_deletion  -> ['/tmp/op.txt']\n[PASS] network attempt finding  -> ['unknown', '203.0.113.9:4444']\n[PASS] network destination captured  -> ['unknown', '203.0.113.9:4444']\n[PASS] network sample not SAFE  -> malicious risk=132.0\n\nRESULT: 8 passed, 0 failed",
+    "stderr": ""
+  },
+  "M4_static_unit": {
+    "exit": 0,
+    "tail": "[PASS] malformed input -> graceful  -> analyzed ok\n[PASS] M4 never executes sample  -> matched without spawning\n[PASS] normalized finding schema  -> source=static_analysis\n[PASS] risk-engine consumable (sev/conf)  -> sev=critical conf=1.0\n\nRESULT: 14 passed, 0 failed",
+    "stderr": ""
+  },
+  "M4_static_e2e": {
+    "exit": 0,
+    "tail": "[PASS] unrelated string -> no static FP  -> []\n[PASS] random binary -> graceful terminal  -> status=completed\n[PASS] malformed input -> graceful  -> status=completed\n[PASS] normalized finding schema  -> source=static_analysis\n\nRESULT: 10 passed, 0 failed",
+    "stderr": ""
+  },
+  "M4_yara_unit": {
+    "exit": 0,
+    "tail": "[PASS] negative sample has no YARA match\n[PASS] upstream maldoc rule match\n[PASS] structural PDF finding\n[PASS] archive entry limit finding\n[PASS] invalid YARA rule isolated\nYARA M4 TESTS PASSED: 7/7",
+    "stderr": ""
+  },
+  "M4_yara_e2e": {
+    "exit": 0,
+    "tail": "[PASS] YARA + structural findings coexist with payloads\n[PASS] clean corpus has no YARA finding\n[PASS] Office macro structural finding\nM4 YARA E2E PASSED: 3/3",
+    "stderr": ""
+  },
+  "M5_dynamic_unit": {
+    "exit": 0,
+    "tail": "M5 DYNAMIC UNIT TESTS PASSED: 8/8",
+    "stderr": ""
+  },
+  "M5_dynamic_e2e": {
+    "exit": 0,
+    "tail": "[PASS] timeout decision + terminal  -> timeout exec_status=timeout\n[PASS] malformed sample graceful  -> status=completed\n[PASS] normalized finding schema (0.4.0)  -> source=sandbox\n[PASS] no orphan sandbox containers  -> []\n\nRESULT: 14 passed, 0 failed",
+    "stderr": ""
+  },
+  "compile_check": {
+    "exit": 0,
+    "tail": "",
+    "stderr": ""
+  },
+  "overall": "PASS"
+}

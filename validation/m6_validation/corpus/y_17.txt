@@ -1,0 +1,1 @@
+stratum+tcp://pool.example.invalid:3333 2

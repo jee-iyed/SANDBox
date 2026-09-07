@@ -1,0 +1,167 @@
+{
+  "target": {
+    "files": 90,
+    "seconds": 60,
+    "files_per_minute": 90
+  },
+  "actual": {
+    "total_files": 90,
+    "completed": 90,
+    "failed": 0,
+    "timeouts": 0,
+    "errors": 0,
+    "submit_duration_s": 28.17,
+    "total_elapsed_s": 199.79,
+    "throughput_files_per_second": 0.45,
+    "throughput_files_per_minute": 27.0,
+    "avg_scan_time_s": 56.47,
+    "median_scan_time_s": 39.37,
+    "p95_scan_time_s": 158.46,
+    "min_scan_time_s": 28.23,
+    "max_scan_time_s": 172.63
+  },
+  "performance_pass": false,
+  "detection": {
+    "per_analyzer": {
+      "sandbox": {
+        "tp": 10,
+        "fp": 0,
+        "fn": 0
+      },
+      "static_analysis": {
+        "tp": 4,
+        "fp": 0,
+        "fn": 0
+      },
+      "structural_analysis": {
+        "tp": 31,
+        "fp": 0,
+        "fn": 0
+      },
+      "yara": {
+        "tp": 27,
+        "fp": 0,
+        "fn": 0
+      }
+    },
+    "total_true_positives": 72,
+    "total_false_positives": 0,
+    "total_false_negatives": 0,
+    "overall_file_pass_rate_pct": 95.6,
+    "failed_files": [],
+    "invalid_expectations": [
+      {
+        "filename": "s_18.zip",
+        "reason": "original expectation (limit at depth 6) mis-derived: top-level zip is depth 0, so 6 zips reach depth 5, never exceeding max_archive_depth=5",
+        "expected": [
+          "structural_analysis"
+        ],
+        "actual": [
+          "structural_analysis"
+        ]
+      },
+      {
+        "filename": "s_19.zip",
+        "reason": "original expectation (limit at depth 6) mis-derived: top-level zip is depth 0, so 6 zips reach depth 5, never exceeding max_archive_depth=5",
+        "expected": [
+          "structural_analysis"
+        ],
+        "actual": [
+          "structural_analysis"
+        ]
+      },
+      {
+        "filename": "m_04.docx",
+        "reason": "expected XMRIG_Miner rule: YARA scans raw bytes only (no zip decompression), the string is deflated inside the archive",
+        "expected": [
+          "structural_analysis",
+          "yara"
+        ],
+        "actual": [
+          "structural_analysis",
+          "yara"
+        ]
+      },
+      {
+        "filename": "m_10.zip",
+        "reason": "expected XMRIG_Miner rule: YARA scans raw bytes only (no zip decompression), the string is deflated inside the archive",
+        "expected": [
+          "structural_analysis",
+          "yara"
+        ],
+        "actual": [
+          "structural_analysis",
+          "yara"
+        ]
+      }
+    ],
+    "engine_limitations": []
+  },
+  "regression": {
+    "M1_smoke": {
+      "exit": 0,
+      "tail": "health OK: {'status': 'ok', 'database': True}\nqueued scan: {'id': 'cd1e1563-f31d-46bf-b273-71dbe7240cbf', 'status': 'queued', 'verdict': 'not_analyzed'}\nfinal: {'status': 'completed', 'verdict': 'safe', 'action': 'allow', 'risk_score': 0.0}\nsandbox finding OK: ['fast_scan', 'fast_scan', 'sandbox']\nlist OK (10 scans)\nSMOKE TEST PASSED",
+      "stderr": ""
+    },
+    "M2_fast_scan_e2e": {
+      "exit": 0,
+      "tail": "\n=== duration_ms / risk fields (representative) ===\n[PASS] risk_score present  -> risk=0.0\n\n\nRESULT: 27 passed, 0 failed",
+      "stderr": ""
+    },
+    "M3_normalizer_unit": {
+      "exit": 0,
+      "tail": "SANDBOX NORMALIZER TESTS PASSED",
+      "stderr": ""
+    },
+    "M3_isolation": {
+      "exit": 0,
+      "tail": "isolation OK: network unreachable\nisolation OK: rootfs read-only\nisolation OK: analysis roundtrip (2533ms, completed)\nSANDBOX ISOLATION TEST PASSED",
+      "stderr": ""
+    },
+    "M3_behavior_e2e": {
+      "exit": 0,
+      "tail": "[PASS] file delete -> file_deletion  -> ['/tmp/op.txt']\n[PASS] network attempt finding  -> ['unknown', '203.0.113.9:4444']\n[PASS] network destination captured  -> ['unknown', '203.0.113.9:4444']\n[PASS] network sample not SAFE  -> malicious risk=132.0\n\nRESULT: 8 passed, 0 failed",
+      "stderr": ""
+    },
+    "M4_static_unit": {
+      "exit": 0,
+      "tail": "[PASS] malformed input -> graceful  -> analyzed ok\n[PASS] M4 never executes sample  -> matched without spawning\n[PASS] normalized finding schema  -> source=static_analysis\n[PASS] risk-engine consumable (sev/conf)  -> sev=critical conf=1.0\n\nRESULT: 14 passed, 0 failed",
+      "stderr": ""
+    },
+    "M4_static_e2e": {
+      "exit": 0,
+      "tail": "[PASS] unrelated string -> no static FP  -> []\n[PASS] random binary -> graceful terminal  -> status=completed\n[PASS] malformed input -> graceful  -> status=completed\n[PASS] normalized finding schema  -> source=static_analysis\n\nRESULT: 10 passed, 0 failed",
+      "stderr": ""
+    },
+    "M4_yara_unit": {
+      "exit": 0,
+      "tail": "[PASS] negative sample has no YARA match\n[PASS] upstream maldoc rule match\n[PASS] structural PDF finding\n[PASS] archive entry limit finding\n[PASS] invalid YARA rule isolated\nYARA M4 TESTS PASSED: 7/7",
+      "stderr": ""
+    },
+    "M4_yara_e2e": {
+      "exit": 0,
+      "tail": "[PASS] YARA + structural findings coexist with payloads\n[PASS] clean corpus has no YARA finding\n[PASS] Office macro structural finding\nM4 YARA E2E PASSED: 3/3",
+      "stderr": ""
+    },
+    "M5_dynamic_unit": {
+      "exit": 0,
+      "tail": "M5 DYNAMIC UNIT TESTS PASSED: 8/8",
+      "stderr": ""
+    },
+    "M5_dynamic_e2e": {
+      "exit": 0,
+      "tail": "[PASS] timeout decision + terminal  -> timeout exec_status=timeout\n[PASS] malformed sample graceful  -> status=completed\n[PASS] normalized finding schema (0.4.0)  -> source=sandbox\n[PASS] no orphan sandbox containers  -> []\n\nRESULT: 14 passed, 0 failed",
+      "stderr": ""
+    },
+    "compile_check": {
+      "exit": 0,
+      "tail": "",
+      "stderr": ""
+    },
+    "overall": "PASS"
+  },
+  "sandbox_cleanup": {
+    "orphan_containers": [],
+    "cleanup_pass": true
+  }
+}

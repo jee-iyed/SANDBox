@@ -47,6 +47,10 @@ TRACE_SYSCALLS = (
 )
 EXEC_TIMEOUT_S = int(os.environ.get("SANDBOX_EXEC_TIMEOUT_S", "30"))
 MAX_EVENTS = int(os.environ.get("SANDBOX_MAX_EVENTS", "2000"))
+# strace defaults to 32 bytes, which can hide a decisive tail of argv (for
+# example a safe synthetic `curl … | sh` pattern).  This remains bounded and
+# is capped again by _string_args() / MAX_EVENTS / host MAX_OUTPUT.
+STRACE_STRING_SIZE = min(256, max(1, int(os.environ.get("SANDBOX_STRACE_STRING_SIZE", "256"))))
 
 
 class Result:
@@ -209,7 +213,7 @@ def main() -> None:
 
     cmd = [
         "timeout", "-k", "2", str(EXEC_TIMEOUT_S),
-        "strace", "-f", "-qq",
+        "strace", "-f", "-qq", "-s", str(STRACE_STRING_SIZE),
         "-e", f"trace={TRACE_SYSCALLS}",
         "-o", str(TRACE_LOG),
     ] + target

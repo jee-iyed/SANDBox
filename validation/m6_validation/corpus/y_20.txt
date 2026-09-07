@@ -1,0 +1,1 @@
+OpenProcess VirtualAllocEx WriteProcessMemory CreateRemoteThread 2

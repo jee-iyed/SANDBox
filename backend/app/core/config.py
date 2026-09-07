@@ -50,8 +50,10 @@ class Settings(BaseSettings):
     dynamic_max_output_mb: int = 1
 
     # MVP background worker (simple DB-poll, see DECISIONS.md)
-    worker_poll_interval_s: float = 1.0
-    worker_max_threads: int = 2
+    # Four bounded workers allow independent, eligible sandbox jobs to make
+    # progress concurrently.  This does not change SandboxPolicy limits.
+    worker_poll_interval_s: float = 0.1
+    worker_max_threads: int = 4
 
     # PROVISIONAL risk-thresholds - NOT confirmed by client (§8, see DECISIONS.md)
     risk_safe_max: float = 0.0
