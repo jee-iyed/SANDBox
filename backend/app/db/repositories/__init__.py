@@ -1,17 +1,23 @@
 from app.db.repositories.scans import (
-    claim_next_queued,
     complete,
     create,
+    delete,
     fail,
     get,
+    get_processable,
     mark_processing,
+    purge_partial_results,
+    stale_queued,
 )
 
 __all__ = [
-    "claim_next_queued",
     "complete",
     "create",
+    "delete",
     "fail",
     "get",
+    "get_processable",
     "mark_processing",
+    "purge_partial_results",
+    "stale_queued",
 ]

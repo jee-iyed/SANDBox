@@ -1,0 +1,1 @@
+"""Redis-backed scan job queue (see DECISIONS.md D-14)."""

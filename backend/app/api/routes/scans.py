@@ -1,7 +1,9 @@
 import hashlib
+import logging
 import uuid as uuidlib
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
+from redis.exceptions import RedisError
 from sqlalchemy.orm import Session, selectinload
 
 from app.api.schemas import ScanDetail, ScanRead
@@ -9,7 +11,10 @@ from app.core.config import settings
 from app.db import repositories
 from app.db.models import Scan
 from app.db.session import get_db
+from app.queue.service import enqueue_scan
 from app.storage.manager import storage
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/scans", tags=["scans"])
 
@@ -52,6 +57,15 @@ async def create_scan(file: UploadFile, db: Session = Depends(get_db)):
         detected_type=None,
         storage_path=f"uploads/{sha256}.bin",
     )
+    try:
+        enqueue_scan(scan.id)
+    except RedisError as exc:
+        logger.exception("QUEUE_ERROR enqueue_failed scan_id=%s", scan.id)
+        try:
+            repositories.delete(db, scan)
+        except Exception:  # noqa: BLE001 - best-effort rollback
+            db.rollback()
+        raise HTTPException(status_code=503, detail="Scan queue unavailable") from exc
     return _load(db, scan.id)
 
 
