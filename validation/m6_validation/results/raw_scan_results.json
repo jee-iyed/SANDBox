@@ -2,11 +2,11 @@
   "env": {
     "os": "Windows 10",
     "python": "3.11.7",
-    "hostname": "redacted",
+    "hostname": "DESKTOP-TVHK3FE",
     "docker_version": "29.6.2",
     "sandbox_image_id": "14244691c4f3",
     "yara_version": "4.5.4",
-    "git_commit": "84e127e feat: establish SANDBox M1-M5 baseline"
+    "git_commit": "a5f28e9 chore: clean and prepare M1-M5 supervisor test"
   },
   "metrics": {
     "total_files": 90,
@@ -14,21 +14,21 @@
     "failed": 0,
     "timeouts": 0,
     "errors": 0,
-    "submit_duration_s": 28.17,
-    "total_elapsed_s": 199.79,
-    "throughput_files_per_second": 0.45,
-    "throughput_files_per_minute": 27.0,
-    "avg_scan_time_s": 56.47,
-    "median_scan_time_s": 39.37,
-    "p95_scan_time_s": 158.46,
-    "min_scan_time_s": 28.23,
-    "max_scan_time_s": 172.63
+    "submit_duration_s": 6.55,
+    "total_elapsed_s": 40.34,
+    "throughput_files_per_second": 2.231,
+    "throughput_files_per_minute": 133.9,
+    "avg_scan_time_s": 6.8,
+    "median_scan_time_s": 5.62,
+    "p95_scan_time_s": 15.69,
+    "min_scan_time_s": 2.34,
+    "max_scan_time_s": 33.99
   },
   "scans": [
     {
       "filename": "b_01.txt",
       "status": "completed",
-      "t_submit": 0.06549715995788574,
+      "t_submit": 0.3027174472808838,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -146,7 +146,7 @@
     {
       "filename": "b_02.txt",
       "status": "completed",
-      "t_submit": 0.14823555946350098,
+      "t_submit": 0.1859569549560547,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -264,19 +264,11 @@
     {
       "filename": "b_03.txt",
       "status": "completed",
-      "t_submit": 0.2367560863494873,
+      "t_submit": 0.32820892333984375,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
       "findings": [
-        {
-          "type": "sandbox_info",
-          "source": "sandbox",
-          "severity": "info",
-          "confidence": 1.0,
-          "value": "status_not_eligible",
-          "rule": null
-        },
         {
           "type": "entropy_sample",
           "source": "fast_scan",
@@ -291,6 +283,14 @@
           "severity": "info",
           "confidence": 1.0,
           "value": "unknown",
+          "rule": null
+        },
+        {
+          "type": "sandbox_info",
+          "source": "sandbox",
+          "severity": "info",
+          "confidence": 1.0,
+          "value": "status_not_eligible",
           "rule": null
         }
       ],
@@ -382,7 +382,7 @@
     {
       "filename": "b_04.txt",
       "status": "completed",
-      "t_submit": 0.14592814445495605,
+      "t_submit": 0.18796586990356445,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -500,7 +500,7 @@
     {
       "filename": "b_05.txt",
       "status": "completed",
-      "t_submit": 0.3127562999725342,
+      "t_submit": 0.32820892333984375,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -618,7 +618,7 @@
     {
       "filename": "b_06.txt",
       "status": "completed",
-      "t_submit": 0.34382033348083496,
+      "t_submit": 0.1859569549560547,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -736,7 +736,7 @@
     {
       "filename": "b_07.json",
       "status": "completed",
-      "t_submit": 0.5070981979370117,
+      "t_submit": 0.5363941192626953,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -854,7 +854,7 @@
     {
       "filename": "b_08.json",
       "status": "completed",
-      "t_submit": 0.38265228271484375,
+      "t_submit": 0.5538687705993652,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -972,7 +972,7 @@
     {
       "filename": "b_09.json",
       "status": "completed",
-      "t_submit": 0.2492656707763672,
+      "t_submit": 0.2710747718811035,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -1090,7 +1090,7 @@
     {
       "filename": "b_10.json",
       "status": "completed",
-      "t_submit": 0.3654341697692871,
+      "t_submit": 0.2710747718811035,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -1208,7 +1208,7 @@
     {
       "filename": "b_11.csv",
       "status": "completed",
-      "t_submit": 0.3654341697692871,
+      "t_submit": 0.37570619583129883,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -1326,7 +1326,7 @@
     {
       "filename": "b_12.csv",
       "status": "completed",
-      "t_submit": 0.34998607635498047,
+      "t_submit": 0.26792311668395996,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -1444,7 +1444,7 @@
     {
       "filename": "b_13.csv",
       "status": "completed",
-      "t_submit": 0.27498817443847656,
+      "t_submit": 0.4920687675476074,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -1562,7 +1562,7 @@
     {
       "filename": "b_14.csv",
       "status": "completed",
-      "t_submit": 0.3215830326080322,
+      "t_submit": 0.4920687675476074,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -1680,7 +1680,7 @@
     {
       "filename": "b_15.html",
       "status": "completed",
-      "t_submit": 0.34818005561828613,
+      "t_submit": 0.3982076644897461,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -1798,7 +1798,7 @@
     {
       "filename": "b_16.html",
       "status": "completed",
-      "t_submit": 0.3083486557006836,
+      "t_submit": 0.3923990726470947,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -1916,7 +1916,7 @@
     {
       "filename": "b_17.html",
       "status": "completed",
-      "t_submit": 0.21784591674804688,
+      "t_submit": 0.42383909225463867,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -2034,7 +2034,7 @@
     {
       "filename": "b_18.pdf",
       "status": "completed",
-      "t_submit": 0.25826191902160645,
+      "t_submit": 0.42049217224121094,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -2157,7 +2157,7 @@
     {
       "filename": "b_19.pdf",
       "status": "completed",
-      "t_submit": 0.291271448135376,
+      "t_submit": 0.42051076889038086,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -2280,7 +2280,7 @@
     {
       "filename": "b_20.pdf",
       "status": "completed",
-      "t_submit": 0.28321075439453125,
+      "t_submit": 0.43257737159729004,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -2403,7 +2403,7 @@
     {
       "filename": "b_21.zip",
       "status": "completed",
-      "t_submit": 0.28321075439453125,
+      "t_submit": 0.2999720573425293,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -2540,7 +2540,7 @@
     {
       "filename": "b_22.zip",
       "status": "completed",
-      "t_submit": 0.31398916244506836,
+      "t_submit": 0.2999720573425293,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -2677,7 +2677,7 @@
     {
       "filename": "b_23.zip",
       "status": "completed",
-      "t_submit": 0.2583339214324951,
+      "t_submit": 0.29168128967285156,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -2814,7 +2814,7 @@
     {
       "filename": "b_24.png",
       "status": "completed",
-      "t_submit": 0.2930757999420166,
+      "t_submit": 0.3845677375793457,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -2932,7 +2932,7 @@
     {
       "filename": "b_25.png",
       "status": "completed",
-      "t_submit": 0.35669875144958496,
+      "t_submit": 0.2699568271636963,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -3050,7 +3050,7 @@
     {
       "filename": "b_26.rtf",
       "status": "completed",
-      "t_submit": 0.31528353691101074,
+      "t_submit": 0.24434328079223633,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -3168,7 +3168,7 @@
     {
       "filename": "b_27.docx",
       "status": "completed",
-      "t_submit": 0.31663012504577637,
+      "t_submit": 0.35662364959716797,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -3310,7 +3310,7 @@
     {
       "filename": "b_28.docx",
       "status": "completed",
-      "t_submit": 0.3178577423095703,
+      "t_submit": 0.35662364959716797,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -3452,7 +3452,7 @@
     {
       "filename": "b_29.py",
       "status": "completed",
-      "t_submit": 0.3178577423095703,
+      "t_submit": 0.39481687545776367,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -3542,8 +3542,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-1ba659a1d848",
-            "duration_ms": 13361,
+            "sandbox_id": "sandbox-e3471dd0bf28",
+            "duration_ms": 4503,
             "exit_code": 1,
             "event_counts": {
               "process_events": 1,
@@ -3577,11 +3577,19 @@
     {
       "filename": "b_30.sh",
       "status": "completed",
-      "t_submit": 0.3371617794036865,
+      "t_submit": 0.38716554641723633,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 3.0,
       "findings": [
+        {
+          "type": "entropy_sample",
+          "source": "fast_scan",
+          "severity": "info",
+          "confidence": 1.0,
+          "value": "4.148",
+          "rule": null
+        },
         {
           "type": "embedded_shell",
           "source": "fast_scan",
@@ -3596,14 +3604,6 @@
           "severity": "info",
           "confidence": 1.0,
           "value": "unknown",
-          "rule": null
-        },
-        {
-          "type": "entropy_sample",
-          "source": "fast_scan",
-          "severity": "info",
-          "confidence": 1.0,
-          "value": "4.148",
           "rule": null
         },
         {
@@ -3675,8 +3675,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-75a94c885b8d",
-            "duration_ms": 13745,
+            "sandbox_id": "sandbox-0dfafc6966c3",
+            "duration_ms": 4675,
             "exit_code": 0,
             "event_counts": {
               "process_events": 1,
@@ -3710,7 +3710,7 @@
     {
       "filename": "y_01.txt",
       "status": "completed",
-      "t_submit": 0.33261609077453613,
+      "t_submit": 0.41756606101989746,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
@@ -3841,7 +3841,7 @@
     {
       "filename": "y_02.txt",
       "status": "completed",
-      "t_submit": 0.3668830394744873,
+      "t_submit": 0.6729633808135986,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
@@ -3972,7 +3972,7 @@
     {
       "filename": "y_03.txt",
       "status": "completed",
-      "t_submit": 0.35054874420166016,
+      "t_submit": 0.5826056003570557,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
@@ -4103,7 +4103,7 @@
     {
       "filename": "y_04.txt",
       "status": "completed",
-      "t_submit": 0.4526355266571045,
+      "t_submit": 0.5872147083282471,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
@@ -4234,7 +4234,7 @@
     {
       "filename": "y_05.pdf",
       "status": "completed",
-      "t_submit": 0.419278621673584,
+      "t_submit": 0.7249910831451416,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 54.0,
@@ -4390,7 +4390,7 @@
     {
       "filename": "y_06.pdf",
       "status": "completed",
-      "t_submit": 0.6155805587768555,
+      "t_submit": 0.7238600254058838,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 54.0,
@@ -4546,27 +4546,11 @@
     {
       "filename": "y_07.pdf",
       "status": "completed",
-      "t_submit": 0.6155805587768555,
+      "t_submit": 0.8136658668518066,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 54.0,
       "findings": [
-        {
-          "type": "yara_match",
-          "source": "yara",
-          "severity": "medium",
-          "confidence": 0.9,
-          "value": "SANDBOX_PDF_ACTIVE_CONTENT",
-          "rule": "SANDBOX_PDF_ACTIVE_CONTENT"
-        },
-        {
-          "type": "sandbox_info",
-          "source": "sandbox",
-          "severity": "info",
-          "confidence": 1.0,
-          "value": "status_not_eligible",
-          "rule": null
-        },
         {
           "type": "entropy_sample",
           "source": "fast_scan",
@@ -4589,6 +4573,22 @@
           "severity": "medium",
           "confidence": 0.9,
           "value": "/JavaScript",
+          "rule": null
+        },
+        {
+          "type": "yara_match",
+          "source": "yara",
+          "severity": "medium",
+          "confidence": 0.9,
+          "value": "SANDBOX_PDF_ACTIVE_CONTENT",
+          "rule": "SANDBOX_PDF_ACTIVE_CONTENT"
+        },
+        {
+          "type": "sandbox_info",
+          "source": "sandbox",
+          "severity": "info",
+          "confidence": 1.0,
+          "value": "status_not_eligible",
           "rule": null
         }
       ],
@@ -4702,7 +4702,7 @@
     {
       "filename": "y_08.pdf",
       "status": "completed",
-      "t_submit": 0.6178820133209229,
+      "t_submit": 0.8136658668518066,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 54.0,
@@ -4858,7 +4858,7 @@
     {
       "filename": "y_09.doc",
       "status": "completed",
-      "t_submit": 0.7512662410736084,
+      "t_submit": 0.6948738098144531,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 25.5,
@@ -5002,7 +5002,7 @@
     {
       "filename": "y_10.doc",
       "status": "completed",
-      "t_submit": 0.6900498867034912,
+      "t_submit": 0.6809966564178467,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 25.5,
@@ -5146,7 +5146,7 @@
     {
       "filename": "y_11.doc",
       "status": "completed",
-      "t_submit": 0.7037100791931152,
+      "t_submit": 0.6809966564178467,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 25.5,
@@ -5168,6 +5168,14 @@
           "rule": null
         },
         {
+          "type": "structural_office_macro",
+          "source": "structural_analysis",
+          "severity": "medium",
+          "confidence": 0.85,
+          "value": null,
+          "rule": null
+        },
+        {
           "type": "yara_match",
           "source": "yara",
           "severity": "info",
@@ -5181,14 +5189,6 @@
           "severity": "info",
           "confidence": 1.0,
           "value": "status_not_eligible",
-          "rule": null
-        },
-        {
-          "type": "structural_office_macro",
-          "source": "structural_analysis",
-          "severity": "medium",
-          "confidence": 0.85,
-          "value": null,
           "rule": null
         }
       ],
@@ -5290,19 +5290,11 @@
     {
       "filename": "y_12.doc",
       "status": "completed",
-      "t_submit": 0.7217302322387695,
+      "t_submit": 0.6369211673736572,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 28.5,
       "findings": [
-        {
-          "type": "structural_office_macro",
-          "source": "structural_analysis",
-          "severity": "medium",
-          "confidence": 0.85,
-          "value": null,
-          "rule": null
-        },
         {
           "type": "entropy_sample",
           "source": "fast_scan",
@@ -5325,6 +5317,14 @@
           "severity": "info",
           "confidence": 1.0,
           "value": "ole2",
+          "rule": null
+        },
+        {
+          "type": "structural_office_macro",
+          "source": "structural_analysis",
+          "severity": "medium",
+          "confidence": 0.85,
+          "value": null,
           "rule": null
         },
         {
@@ -5442,7 +5442,7 @@
     {
       "filename": "y_13.doc",
       "status": "completed",
-      "t_submit": 0.721210241317749,
+      "t_submit": 0.6590778827667236,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 28.5,
@@ -5594,7 +5594,7 @@
     {
       "filename": "y_14.doc",
       "status": "completed",
-      "t_submit": 0.5686485767364502,
+      "t_submit": 0.6590778827667236,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 28.5,
@@ -5746,7 +5746,7 @@
     {
       "filename": "y_15.txt",
       "status": "completed",
-      "t_submit": 0.569190263748169,
+      "t_submit": 0.8437557220458984,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -5877,7 +5877,7 @@
     {
       "filename": "y_16.txt",
       "status": "completed",
-      "t_submit": 0.6515960693359375,
+      "t_submit": 0.9360308647155762,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -6008,7 +6008,7 @@
     {
       "filename": "y_17.txt",
       "status": "completed",
-      "t_submit": 0.5188813209533691,
+      "t_submit": 0.8576581478118896,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -6139,7 +6139,7 @@
     {
       "filename": "y_18.txt",
       "status": "completed",
-      "t_submit": 0.5416598320007324,
+      "t_submit": 0.8350837230682373,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -6270,7 +6270,7 @@
     {
       "filename": "y_19.txt",
       "status": "completed",
-      "t_submit": 0.4963347911834717,
+      "t_submit": 0.8340766429901123,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -6401,7 +6401,7 @@
     {
       "filename": "y_20.txt",
       "status": "completed",
-      "t_submit": 0.45479321479797363,
+      "t_submit": 0.8476202487945557,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -6441,16 +6441,6 @@
       ],
       "analysis_results": [
         {
-          "analyzer": "fast_scan",
-          "status": "ok",
-          "payload": null
-        },
-        {
-          "analyzer": "static_analysis",
-          "status": "ok",
-          "payload": null
-        },
-        {
           "analyzer": "structural_analysis",
           "status": "ok",
           "payload": {
@@ -6470,6 +6460,16 @@
               "bounded": true
             }
           }
+        },
+        {
+          "analyzer": "fast_scan",
+          "status": "ok",
+          "payload": null
+        },
+        {
+          "analyzer": "static_analysis",
+          "status": "ok",
+          "payload": null
         },
         {
           "analyzer": "yara",
@@ -6532,7 +6532,7 @@
     {
       "filename": "s_01.pdf",
       "status": "completed",
-      "t_submit": 0.4546627998352051,
+      "t_submit": 0.7851803302764893,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
@@ -6670,7 +6670,7 @@
     {
       "filename": "s_02.pdf",
       "status": "completed",
-      "t_submit": 0.4735848903656006,
+      "t_submit": 0.7851803302764893,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
@@ -6808,7 +6808,7 @@
     {
       "filename": "s_03.pdf",
       "status": "completed",
-      "t_submit": 0.473050594329834,
+      "t_submit": 0.54868483543396,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
@@ -6946,7 +6946,7 @@
     {
       "filename": "s_04.pdf",
       "status": "completed",
-      "t_submit": 0.30260181427001953,
+      "t_submit": 0.6467351913452148,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
@@ -7084,7 +7084,7 @@
     {
       "filename": "s_05.zip",
       "status": "completed",
-      "t_submit": 0.3446624279022217,
+      "t_submit": 0.6446807384490967,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 28.5,
@@ -7240,7 +7240,7 @@
     {
       "filename": "s_06.zip",
       "status": "completed",
-      "t_submit": 0.3613007068634033,
+      "t_submit": 0.7042896747589111,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 28.5,
@@ -7396,7 +7396,7 @@
     {
       "filename": "s_07.doc",
       "status": "completed",
-      "t_submit": 0.353060245513916,
+      "t_submit": 0.704646110534668,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 25.5,
@@ -7527,7 +7527,7 @@
     {
       "filename": "s_08.doc",
       "status": "completed",
-      "t_submit": 0.3369760513305664,
+      "t_submit": 0.7372329235076904,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 25.5,
@@ -7658,7 +7658,7 @@
     {
       "filename": "s_09.zip",
       "status": "completed",
-      "t_submit": 0.33597397804260254,
+      "t_submit": 0.7557089328765869,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -7808,7 +7808,7 @@
     {
       "filename": "s_10.zip",
       "status": "completed",
-      "t_submit": 0.46373987197875977,
+      "t_submit": 0.7557089328765869,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -7958,7 +7958,7 @@
     {
       "filename": "s_11.zip",
       "status": "completed",
-      "t_submit": 0.46373987197875977,
+      "t_submit": 0.6400802135467529,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -8108,7 +8108,7 @@
     {
       "filename": "s_12.bin",
       "status": "completed",
-      "t_submit": 0.46448254585266113,
+      "t_submit": 0.5198020935058594,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
@@ -8238,11 +8238,19 @@
     {
       "filename": "s_13.bin",
       "status": "completed",
-      "t_submit": 0.4715921878814697,
+      "t_submit": 0.5198020935058594,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
       "findings": [
+        {
+          "type": "entropy_sample",
+          "source": "fast_scan",
+          "severity": "info",
+          "confidence": 1.0,
+          "value": "0.902",
+          "rule": null
+        },
         {
           "type": "fast_scan",
           "source": "fast_scan",
@@ -8257,14 +8265,6 @@
           "severity": "medium",
           "confidence": 0.9,
           "value": null,
-          "rule": null
-        },
-        {
-          "type": "entropy_sample",
-          "source": "fast_scan",
-          "severity": "info",
-          "confidence": 1.0,
-          "value": "0.902",
           "rule": null
         },
         {
@@ -8368,7 +8368,7 @@
     {
       "filename": "s_14.zip",
       "status": "completed",
-      "t_submit": 0.49061059951782227,
+      "t_submit": 0.3888566493988037,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 66.5,
@@ -8513,7 +8513,7 @@
     {
       "filename": "s_15.zip",
       "status": "completed",
-      "t_submit": 0.49534177780151367,
+      "t_submit": 0.43433618545532227,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 66.5,
@@ -8658,7 +8658,7 @@
     {
       "filename": "s_16.zip",
       "status": "completed",
-      "t_submit": 0.5533454418182373,
+      "t_submit": 0.34570765495300293,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -8865,7 +8865,7 @@
     {
       "filename": "s_17.zip",
       "status": "completed",
-      "t_submit": 0.5533454418182373,
+      "t_submit": 0.33416056632995605,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -9072,7 +9072,7 @@
     {
       "filename": "s_18.zip",
       "status": "completed",
-      "t_submit": 4.2181572914123535,
+      "t_submit": 0.33379340171813965,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -9294,7 +9294,7 @@
     {
       "filename": "s_19.zip",
       "status": "completed",
-      "t_submit": 4.2181572914123535,
+      "t_submit": 0.33379340171813965,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -9516,7 +9516,7 @@
     {
       "filename": "s_20.zip",
       "status": "completed",
-      "t_submit": 4.215195417404175,
+      "t_submit": 0.42546939849853516,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 28.5,
@@ -9672,7 +9672,7 @@
     {
       "filename": "d_01.sh",
       "status": "completed",
-      "t_submit": 5.619831323623657,
+      "t_submit": 0.3439772129058838,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 3.0,
@@ -9770,8 +9770,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-280251f3782a",
-            "duration_ms": 47031,
+            "sandbox_id": "sandbox-823d23f1cd09",
+            "duration_ms": 5093,
             "exit_code": 0,
             "event_counts": {
               "process_events": 1,
@@ -9805,19 +9805,11 @@
     {
       "filename": "d_02.sh",
       "status": "completed",
-      "t_submit": 6.268840551376343,
+      "t_submit": 0.36235880851745605,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 34.0,
       "findings": [
-        {
-          "type": "fast_scan",
-          "source": "fast_scan",
-          "severity": "info",
-          "confidence": 1.0,
-          "value": "unknown",
-          "rule": null
-        },
         {
           "type": "entropy_sample",
           "source": "fast_scan",
@@ -9832,6 +9824,14 @@
           "severity": "low",
           "confidence": 0.3,
           "value": null,
+          "rule": null
+        },
+        {
+          "type": "fast_scan",
+          "source": "fast_scan",
+          "severity": "info",
+          "confidence": 1.0,
+          "value": "unknown",
           "rule": null
         },
         {
@@ -9860,16 +9860,6 @@
         }
       ],
       "analysis_results": [
-        {
-          "analyzer": "fast_scan",
-          "status": "ok",
-          "payload": null
-        },
-        {
-          "analyzer": "static_analysis",
-          "status": "ok",
-          "payload": null
-        },
         {
           "analyzer": "structural_analysis",
           "status": "ok",
@@ -9913,14 +9903,24 @@
           }
         },
         {
+          "analyzer": "fast_scan",
+          "status": "ok",
+          "payload": null
+        },
+        {
+          "analyzer": "static_analysis",
+          "status": "ok",
+          "payload": null
+        },
+        {
           "analyzer": "sandbox",
           "status": "ok",
           "payload": {
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-0673dd17a624",
-            "duration_ms": 50362,
+            "sandbox_id": "sandbox-a9f6eaee9e90",
+            "duration_ms": 4599,
             "exit_code": 0,
             "event_counts": {
               "process_events": 2,
@@ -9956,7 +9956,7 @@
     {
       "filename": "d_03.sh",
       "status": "completed",
-      "t_submit": 7.151997327804565,
+      "t_submit": 0.46738314628601074,
       "verdict": "malicious",
       "action": "reject",
       "risk_score": 121.0,
@@ -10102,8 +10102,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-cf8f523e5acd",
-            "duration_ms": 55827,
+            "sandbox_id": "sandbox-fcf6cda2b3c1",
+            "duration_ms": 4776,
             "exit_code": 0,
             "event_counts": {
               "process_events": 3,
@@ -10140,7 +10140,7 @@
     {
       "filename": "d_04.sh",
       "status": "completed",
-      "t_submit": 9.355054378509521,
+      "t_submit": 0.46738314628601074,
       "verdict": "malicious",
       "action": "reject",
       "risk_score": 152.0,
@@ -10278,8 +10278,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-1e2fabc5953d",
-            "duration_ms": 45755,
+            "sandbox_id": "sandbox-8909f61ecb66",
+            "duration_ms": 4866,
             "exit_code": 0,
             "event_counts": {
               "process_events": 2,
@@ -10316,7 +10316,7 @@
     {
       "filename": "d_05.sh",
       "status": "completed",
-      "t_submit": 9.356231689453125,
+      "t_submit": 0.6261863708496094,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 31.0,
@@ -10430,8 +10430,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-39dce5de85d3",
-            "duration_ms": 57479,
+            "sandbox_id": "sandbox-9117e5742922",
+            "duration_ms": 4891,
             "exit_code": 0,
             "event_counts": {
               "process_events": 2,
@@ -10467,7 +10467,7 @@
     {
       "filename": "d_06.py",
       "status": "completed",
-      "t_submit": 9.065595626831055,
+      "t_submit": 0.7143070697784424,
       "verdict": "safe",
       "action": "allow",
       "risk_score": 0.0,
@@ -10557,8 +10557,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-cf4a85e1bb28",
-            "duration_ms": 54085,
+            "sandbox_id": "sandbox-31ef226fff72",
+            "duration_ms": 5639,
             "exit_code": 1,
             "event_counts": {
               "process_events": 1,
@@ -10592,7 +10592,7 @@
     {
       "filename": "d_07.py",
       "status": "completed",
-      "t_submit": 7.039105176925659,
+      "t_submit": 0.6312317848205566,
       "verdict": "malicious",
       "action": "reject",
       "risk_score": 139.0,
@@ -10714,8 +10714,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-213d1f5c3fb6",
-            "duration_ms": 52955,
+            "sandbox_id": "sandbox-342b83fdcc09",
+            "duration_ms": 4243,
             "exit_code": 0,
             "event_counts": {
               "process_events": 1,
@@ -10751,7 +10751,7 @@
     {
       "filename": "d_08.sh",
       "status": "completed",
-      "t_submit": 9.065595626831055,
+      "t_submit": 0.6192166805267334,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 34.0,
@@ -10865,8 +10865,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-8d9555127982",
-            "duration_ms": 56780,
+            "sandbox_id": "sandbox-a4aabd301814",
+            "duration_ms": 5788,
             "exit_code": 0,
             "event_counts": {
               "process_events": 2,
@@ -10902,25 +10902,25 @@
     {
       "filename": "d_09.sh",
       "status": "completed",
-      "t_submit": 7.610736131668091,
+      "t_submit": 0.7616400718688965,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 65.0,
       "findings": [
-        {
-          "type": "embedded_shell",
-          "source": "fast_scan",
-          "severity": "low",
-          "confidence": 0.3,
-          "value": null,
-          "rule": null
-        },
         {
           "type": "entropy_sample",
           "source": "fast_scan",
           "severity": "info",
           "confidence": 1.0,
           "value": "4.078",
+          "rule": null
+        },
+        {
+          "type": "embedded_shell",
+          "source": "fast_scan",
+          "severity": "low",
+          "confidence": 0.3,
+          "value": null,
           "rule": null
         },
         {
@@ -11032,8 +11032,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-6529f10d6830",
-            "duration_ms": 45522,
+            "sandbox_id": "sandbox-8291cea4671b",
+            "duration_ms": 4387,
             "exit_code": 0,
             "event_counts": {
               "process_events": 3,
@@ -11069,11 +11069,19 @@
     {
       "filename": "d_10.sh",
       "status": "completed",
-      "t_submit": 7.858650207519531,
+      "t_submit": 0.7606420516967773,
       "verdict": "malicious",
       "action": "reject",
       "risk_score": 90.0,
       "findings": [
+        {
+          "type": "process_creation",
+          "source": "sandbox",
+          "severity": "low",
+          "confidence": 0.7,
+          "value": "/bin/sh",
+          "rule": null
+        },
         {
           "type": "entropy_sample",
           "source": "fast_scan",
@@ -11096,14 +11104,6 @@
           "severity": "info",
           "confidence": 1.0,
           "value": "unknown",
-          "rule": null
-        },
-        {
-          "type": "process_creation",
-          "source": "sandbox",
-          "severity": "low",
-          "confidence": 0.7,
-          "value": "/bin/sh",
           "rule": null
         },
         {
@@ -11191,8 +11191,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-e74275dac2d3",
-            "duration_ms": 58047,
+            "sandbox_id": "sandbox-f5d144c22613",
+            "duration_ms": 4224,
             "exit_code": 0,
             "event_counts": {
               "process_events": 2,
@@ -11229,7 +11229,7 @@
     {
       "filename": "m_01.pdf",
       "status": "completed",
-      "t_submit": 8.105556964874268,
+      "t_submit": 0.7654635906219482,
       "verdict": "malicious",
       "action": "reject",
       "risk_score": 81.0,
@@ -11397,7 +11397,7 @@
     {
       "filename": "m_02.sh",
       "status": "completed",
-      "t_submit": 7.625104188919067,
+      "t_submit": 0.7670102119445801,
       "verdict": "malicious",
       "action": "reject",
       "risk_score": 103.0,
@@ -11503,8 +11503,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-51b6a9d59231",
-            "duration_ms": 55167,
+            "sandbox_id": "sandbox-dfade2a175de",
+            "duration_ms": 11573,
             "exit_code": 0,
             "event_counts": {
               "process_events": 1,
@@ -11538,7 +11538,7 @@
     {
       "filename": "m_03.sh",
       "status": "completed",
-      "t_submit": 7.623578786849976,
+      "t_submit": 0.7025930881500244,
       "verdict": "malicious",
       "action": "reject",
       "risk_score": 148.0,
@@ -11697,8 +11697,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-a7ce80e5fd69",
-            "duration_ms": 52189,
+            "sandbox_id": "sandbox-e8a8fea576e8",
+            "duration_ms": 14902,
             "exit_code": 0,
             "event_counts": {
               "process_events": 3,
@@ -11735,7 +11735,7 @@
     {
       "filename": "m_04.docx",
       "status": "completed",
-      "t_submit": 6.931789398193359,
+      "t_submit": 0.688408613204956,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 25.5,
@@ -11906,7 +11906,7 @@
     {
       "filename": "m_05.bin",
       "status": "completed",
-      "t_submit": 9.40033507347107,
+      "t_submit": 0.7338190078735352,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
@@ -12049,7 +12049,7 @@
     {
       "filename": "m_06.zip",
       "status": "completed",
-      "t_submit": 9.40033507347107,
+      "t_submit": 0.7216875553131104,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 27.0,
@@ -12217,7 +12217,7 @@
     {
       "filename": "m_07.doc",
       "status": "completed",
-      "t_submit": 9.40033507347107,
+      "t_submit": 0.6567087173461914,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 28.5,
@@ -12381,7 +12381,7 @@
     {
       "filename": "m_08.pdf",
       "status": "completed",
-      "t_submit": 8.436176061630249,
+      "t_submit": 0.6537115573883057,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 54.0,
@@ -12537,7 +12537,7 @@
     {
       "filename": "m_09.py",
       "status": "completed",
-      "t_submit": 8.474102973937988,
+      "t_submit": 0.656212329864502,
       "verdict": "malicious",
       "action": "reject",
       "risk_score": 166.0,
@@ -12609,12 +12609,12 @@
       ],
       "analysis_results": [
         {
-          "analyzer": "fast_scan",
+          "analyzer": "static_analysis",
           "status": "ok",
           "payload": null
         },
         {
-          "analyzer": "static_analysis",
+          "analyzer": "fast_scan",
           "status": "ok",
           "payload": null
         },
@@ -12672,8 +12672,8 @@
             "decision": "executed",
             "reason": "executed",
             "status": "completed",
-            "sandbox_id": "sandbox-ee877cd5b19a",
-            "duration_ms": 28297,
+            "sandbox_id": "sandbox-fd521e4f65b6",
+            "duration_ms": 19446,
             "exit_code": 0,
             "event_counts": {
               "process_events": 1,
@@ -12709,7 +12709,7 @@
     {
       "filename": "m_10.zip",
       "status": "completed",
-      "t_submit": 7.572058439254761,
+      "t_submit": 0.6516799926757812,
       "verdict": "suspicious",
       "action": "quarantine",
       "risk_score": 25.5,

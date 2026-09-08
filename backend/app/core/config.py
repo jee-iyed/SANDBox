@@ -15,7 +15,29 @@ class Settings(BaseSettings):
     version: str = "0.1.0"
 
     database_url: str = "postgresql+psycopg://sandbox:sandbox@localhost:5432/sandbox"
+
+    # Redis-backed scan queue (see DECISIONS.md D-14). Connection is configured
+    # via REDIS_URL, or - when REDIS_HOST/PORT/DB are set - built from those.
     redis_url: str = "redis://localhost:6379/0"
+    redis_host: str = ""
+    redis_port: int = 0
+    redis_db: int = 0
+    redis_username: str | None = None
+    redis_password: str | None = None
+    # Job dispatch stream + consumer group. Jobs are {scan_id: "..."} only;
+    # files and persistent state stay in PostgreSQL/storage.
+    redis_queue_name: str = "sandbox:scans"
+    redis_consumer_group: str = "sandbox:workers"
+    # Approximate stream cap: records are trimmed after ack; this bounds memory.
+    redis_stream_maxlen: int = 100000
+    # Minimum idle time before a pending (in-flight) job from a crashed worker
+    # is reclaimed and redelivered. Must exceed the max pipeline duration:
+    # scan_timeout_s + Docker sandbox lifecycle.
+    redis_visibility_timeout_s: int = 600
+    # Blocking read timeout per consumer (ms) before it reclaims stale jobs.
+    redis_block_timeout_ms: int = 5000
+    # Backoff before retrying after a QUEUE_ERROR / WORKER_ERROR.
+    redis_backoff_s: float = 2.0
 
     # Security limits (hardening baseline, see SECURITY.md)
     max_upload_mb: int = 50
@@ -49,10 +71,8 @@ class Settings(BaseSettings):
     dynamic_max_events: int = 2000
     dynamic_max_output_mb: int = 1
 
-    # MVP background worker (simple DB-poll, see DECISIONS.md)
-    # Four bounded workers allow independent, eligible sandbox jobs to make
-    # progress concurrently.  This does not change SandboxPolicy limits.
-    worker_poll_interval_s: float = 0.1
+    # Bounded Redis scan consumers (see DECISIONS.md D-14). The queue replaced
+    # the old DB-poll dispatch; worker_max_threads bounds concurrency.
     worker_max_threads: int = 4
 
     # PROVISIONAL risk-thresholds - NOT confirmed by client (§8, see DECISIONS.md)
@@ -84,6 +104,23 @@ class Settings(BaseSettings):
     @property
     def reports_dir(self) -> Path:
         return self.storage_dir / "reports"
+
+    @property
+    def redis_connection_url(self) -> str:
+        """Effective Redis URL.
+
+        Prefer granular REDIS_HOST/REDIS_PORT/REDIS_DB/REDIS_USERNAME/
+        REDIS_PASSWORD when set; otherwise fall back to REDIS_URL.
+        """
+        if self.redis_host or self.redis_port or self.redis_db:
+            host = self.redis_host or "localhost"
+            port = self.redis_port or 6379
+            db = self.redis_db or 0
+            user = self.redis_username or ""
+            password = self.redis_password or ""
+            auth = f"{user}:{password}@" if (user or password) else ""
+            return f"redis://{auth}{host}:{port}/{db}"
+        return self.redis_url
 
 
 settings = Settings()

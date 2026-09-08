@@ -99,6 +99,22 @@ Décisions et règles de sécurité transverses au projet. Statut : vivant.
 - **Pas d'exécution d'artefacts extraits**, pas d'analyse récursive, pas de macro/script hôte.
 - L'analyse dynamique est **bornée et n'est pas équivalente à une sandbox commerciale complète**.
 
+## File Redis (worker asynchrone, M6)
+
+- **Métadonnées uniquement** : un job ne transporte que `scan_id` — jamais le contenu du fichier. Le
+  contenu reste adressé par `{sha256}.bin` dans `storage/uploads` ; les workers le retrouvent via le
+  serveur, sans chemin fourni par le client.
+- **Payloads de file = non fiables** : `scan_id` est validé comme UUID avant toute opération
+  DB/Redis ; rien n'est exécuté à partir des messages. Aucun subprocess/shell n'est déclenché par la
+  file : le pipeline reste celui, inchangé, d'`orchestrator/scanner.py` (D-04).
+- **Pas de double analyse** : le claim est idempotent — QUEUED, ou PROCESSING avec lease expirée
+  (résultats partiels purgés avant re-exécution) ; un scan déjà terminal est acké et ignoré.
+- **Fiabilité bornée** : `XACK` uniquement après état terminal, `XAUTOCLAIM` re-délivre les jobs
+  orphelins après le timeout de visibilité (600 s), rescue sweep des QUEUED au démarrage.
+- **Connexion** : Redis local en loopback par défaut (`redis://localhost:6379/0`). S'il est exposé :
+  activate `redis_username`/`redis_password`, réseau dédié, **jamais de secret dans les messages**.
+  Voir D-14 dans `DECISIONS.md`.
+
 ## Secrets / artefacts malveillants
 
 - **Jamais de secrets/clés commités** (`.env` est ignoré ; seul `.env.example` est versionné).

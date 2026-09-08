@@ -24,6 +24,7 @@ des scans `QUEUED` via `FOR UPDATE SKIP LOCKED` (`db/repositories/scans.py::clai
   au volume (~5 000/mois).
 - **Limites assumées :** non durable (jobs perdus si le process meurt), non horizontale. Si ces besoins
   apparaissent → migrer vers Celery + Redis. Documenté dans le code.
+- **Statut :** utilisé de M1 à M5 ; **remplacé en M6 par une file Redis Streams** (voir D-14).
 
 ### D-02 : Seuils de risque — provisoires et configurables (§8)
 - `risk_safe_max = 0` (risque `<= 0` → `SAFE/ALLOW`)
@@ -140,6 +141,32 @@ risque sandbox (testé : PDF bénin → `risk=0, SAFE`).
   observation DNS active — uniquement détection lexicale du port 53.
 - Pas de nouveau modèle DB : le payload M5 passe par `AnalysisResult.payload` (comme M4).
 
+## M6 — File Redis (worker asynchrone)
+
+### D-14 : File Redis Streams remplaçant le polling DB (découplage API → workers)
+Le polling DB de D-01 est remplacé par une file **Redis Streams** (stream `sandbox:scans`, consumer
+group `sandbox:workers`) : `POST /api/scans` crée le scan en DB (QUEUED) puis **enqueue un job**
+(`XADD`); les workers lisent la file (`XREADGROUP`) au lieu de poller `FOR UPDATE SKIP LOCKED`.
+- **Payload = métadonnées uniquement** : le job transporte seulement `scan_id` (et jamais le contenu
+  du fichier, qui reste adressé par `{sha256}.bin` dans `storage/uploads`).
+- **Concurrence bornée, inchangée** : `worker_max_threads` (4) avec **un consommateur par thread**
+  (`consumer-{i}`), `XREADGROUP` bloquant (délai `redis_block_timeout_ms`, 5 s).
+- **Fiabilité / at-least-once** : `XACK` uniquement après état terminal (`COMPLETED`/`FAILED`) ;
+  `XAUTOCLAIM` re-délivre les jobs orphelins après `redis_visibility_timeout_s` (600 s) ; le claim est
+  **idempotent** (scan QUEUED, ou PROCESSING avec lease expirée — avec purge des résultats partiels ;
+  un scan terminal est acké et ignoré, pas de double pipeline) ; au démarrage, les scans QUEUED oubliés
+  sont re-enqueue (rescue sweep) ; la consumer group s'auto-répare (`NOGROUP` → recréation).
+- **Découplage immédiat** : la submission ne dépend plus de l'état des workers ; en cas d'échec Redis à
+  l'enqueue, `POST /api/scans` répond **503** et la ligne scan créée est supprimée (rollback).
+- **Schéma DB / pipeline M1–M5 / `SandboxPolicy` inchangés** : seule la couche de dispatch change.
+- **Mesure "après" (même corpus/scripts/config, environnement courant)** : 90 fichiers → **40,34 s** →
+  **133,9 files/min** (submission 6,55 s, avg 6,8 s, median 5,62 s, p95 15,69 s, max 33,99 s,
+  0 échec, 0 conteneur orphelin) vs. D-13 : 199,79 s → 27 files/min. Réserve honnête : l'écart inclut
+  des facteurs d'environnement (Docker Desktop chaud après les runs de validation, charge machine) ;
+  le cycle de vie des conteneurs reste le coût par fichier pour les échantillons effectivement
+  sandboxés (p95 15,69 s). Preuves : `validation/m6_validation/results/raw_scan_results.before_redis.json`
+  et `raw_scan_results.after_redis.json`.
+
 ## Décisions ouvertes / à confirmer
 
 ### D-13 : Débit du worker + capture argv strace (état courant pré-handoff)
@@ -152,6 +179,7 @@ risque sandbox (testé : PDF bénin → `risk=0, SAFE`).
 - Mesures M6 (état au handoff) : 90 fichiers → 199,79 s → 27 files/min ; le goulot mesuré est le
   cycle de vie des conteneurs Docker Desktop (~14–30 s/conteneur), voir
   `validation/m6_validation/results/SANDBOX_LIFECYCLE_PROFILE.md`. Non optimisé (diagnostic seulement).
+  **Depuis :** la file Redis (D-14) retire le polling DB ; statistiques avant/après dans D-14.
 
 - Calibration des seuils de risque (voir D-02).
 - Valeur cible Fast Scan : §2.5 stipule `<20ms`, mais c'est un **objectif de benchmark**, pas une

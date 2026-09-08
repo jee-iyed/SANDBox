@@ -1,12 +1,13 @@
 # Document Security Scanner
 
-Plateforme SaaS d'analyse et de sanitisation de documents (FastAPI + PostgreSQL),
+Plateforme SaaS d'analyse et de sanitisation de documents (FastAPI + PostgreSQL + **Redis**),
 développée phase par phase selon un brief en 18 phases. Volume cible : ~5 000 docs/mois.
 
 ## Architecture (résumé)
 
-- **Upload** → **async** : `POST /scans` → `202 QUEUED` → worker en arrière-plan →
-  `COMPLETED | FAILED`.
+- **Upload** → **async** : `POST /scans` → scan créé en DB (`QUEUED`) + job poussé sur une **file Redis
+  Streams** (`sandbox:scans`, consumer group `sandbox:workers`) → worker en arrière-plan →
+  `COMPLETED | FAILED`. La file transporte uniquement `scan_id` (métadonnées, jamais le contenu).
 - **Pipeline** (orchestrator) : fast scan → static/YARA → sandbox dynamique → IA → corrélation/risque
   → verdict/action → CDR/quarantaine.
 - **Finding normalisé** (schéma obligatoire) : `type / value / source / severity / confidence /
@@ -40,10 +41,16 @@ développée phase par phase selon un brief en 18 phases. Volume cible : ~5 000 
   observable dans `AnalysisResult.payload` et l'evidence `sandbox_info`. Réutilise le sandbox durci M3
   (`strace -f`, réseau DENY, caps CPU/RAM/PIDs, cleanup garanti) + findings comportementaux
   `shell_execution`, `suspicious_command`, `dns_request` et caps `max_events`/`max_output_mb`.
-  `strace -s 256` preserves bounded command evidence beyond its 32-byte default; the worker uses
-  four bounded DB-locked workers and does not sleep between already queued scans.
-  L'analyse dynamique est **bornée** : ce n'est pas une sandbox commerciale complète.
-- ⬜ M6–M8 : corrélation/risque (calibrage), IA, CDR, productisation.
+`strace -s 256` preserves bounded command evidence beyond its 32-byte default; the worker is
+   dispaché par une file Redis Streams (M6) avec un pool borné de 4 consommateurs.
+   L'analyse dynamique est **bornée** : ce n'est pas une sandbox commerciale complète.
+- ✅ **M6 — File Redis** : découplage API → workers via **Redis Streams** (`sandbox:scans` /
+  `sandbox:workers`). `POST` enqueue après création du scan (202) ; workers = 4 consommateurs bornés
+  (`XREADGROUP` bloquant) ; `XACK` après état terminal, `XAUTOCLAIM` pour les jobs orphelins
+  (visibilité 600 s), claim idempotent (pas de double pipeline), rescue sweep des QUEUED au
+  démarrage, auto-heal `NOGROUP` ; erreur Redis à l'enqueue → `503` + rollback. Pipeline M1–M5 et
+  schéma inchangés. Voir [D-14](DECISIONS.md).
+- ⬜ M6–M8 (reste) : corrélation/risque (calibrage), IA, CDR, productisation.
 
 ## Supervisor Test / Current Status
 
@@ -54,14 +61,22 @@ développée phase par phase selon un brief en 18 phases. Volume cible : ~5 000 
   `suspicious_command` documentés, corrigés depuis par `strace -s 256`).
 - **Sandbox security validation : PASS** (réseau DENY, rootfs RO, non-root, `cap_drop=ALL`,
   `no-new-privileges`, limites CPU/RAM/PIDs, cleanup garanti — 0 conteneur orphelin).
-- **Performance target (5 000 files / 60 min) : NOT YET ACHIEVED** — benchmark local 90 fichiers :
-  199,79 s → **27 files/min** (cible 90 files/min). Le goulot mesuré est le cycle de vie des
-  conteneurs Docker Desktop (create+start+remove ≈ 14–30 s/conteneur) dans l'environnement courant,
-  pas le code d'analyse (exécution+strace+collecte < 0,2 s). Voir
-  [`validation/m6_validation/results/SANDBOX_LIFECYCLE_PROFILE.md`](validation/m6_validation/results/SANDBOX_LIFECYCLE_PROFILE.md).
+- **Redis queue validation : PASS** — unitaire `test_redis_queue.py` 13/13 (enqueue, ack, autoclaim,
+  idempotence, 503+rollback, redélivrance des jobs) + E2E `e2e_redis_queue.py` 5/5 (submit rapide,
+  jobs en file, terminaison, persistance, duplicata sans corruption).
+- **Performance target (5 000 files / 60 min) : ACHIEVED (benchmark local)** — avec la file Redis,
+  même corpus de 90 fichiers : **40,34 s → 133,9 files/min** (submission 6,55 s, avg 6,8 s,
+  median 5,62 s, p95 15,69 s, 0 échec, 0 orphelin) contre 199,79 s → 27 files/min avant (D-13).
+  Le résultat reste environnement-dépendant ; pour les échantillons effectivement sandboxés, le cycle
+  de vie des conteneurs Docker Desktop reste le coût dominant par fichier (p95 15,69 s). Preuves :
+  `validation/m6_validation/results/raw_scan_results.before_redis.json` /
+  `raw_scan_results.after_redis.json`.
 - **No real malware used** — tous les échantillons de validation sont synthétiques et inertes.
 - Validation supplémentaire M6 : [`validation/m6_validation/`](validation/m6_validation/) (corpus 90
-  fichiers, scripts de benchmark, matrices de détection, profilage du cycle de vie sandbox).
+  fichiers, scripts de benchmark, matrices de détection,
+  [profilage du cycle de vie sandbox](validation/m6_validation/results/SANDBOX_LIFECYCLE_PROFILE.md),
+  benchmark avant/après file Redis `raw_scan_results.before_redis.json` /
+  `raw_scan_results.after_redis.json`).
 
 ## Démarrage rapide
 
@@ -111,6 +126,8 @@ cd backend
 .\.venv\Scripts\python.exe tests\test_dynamic_m5.py                  # M5 politique éligibilité + findings (unitaire)
 .\.venv\Scripts\python.exe tests\e2e_dynamic_m5.py http://127.0.0.1:8001 # M5 exécution dynamique bornée (E2E)
 .\.venv\Scripts\python.exe tests\smoke_test.py http://127.0.0.1:8001   # flux async complet M1
+.\.venv\Scripts\python.exe tests\test_redis_queue.py                  # file Redis (unitaire, sans Docker ni serveur)
+.\.venv\Scripts\python.exe tests\e2e_redis_queue.py http://127.0.0.1:8001 # file Redis (E2E : enqueue, terminaison, duplicata)
 .\.venv\Scripts\python.exe scripts\bench_static.py               # benchmark M4 (mean/median/p95)
 
 # Inspection/version YARA
