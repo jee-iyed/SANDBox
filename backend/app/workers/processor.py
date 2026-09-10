@@ -85,6 +85,8 @@ class ScanWorker:
 
     def __init__(self) -> None:
         self._stop = threading.Event()
+        self._activity_lock = threading.Lock()
+        self._active_consumers: set[str] = set()
         self._threads = [
             threading.Thread(
                 target=self._loop,
@@ -111,6 +113,10 @@ class ScanWorker:
 
     def stop(self) -> None:
         self._stop.set()
+
+    def snapshot(self) -> dict[str, int]:
+        with self._activity_lock:
+            return {"active": len(self._active_consumers)}
 
     def _rescue_queued(self) -> None:
         """Re-enqueue every QUEUED scan at startup (guarantee no stuck jobs).
@@ -158,7 +164,13 @@ class ScanWorker:
                 self._stop.wait(settings.redis_backoff_s)
 
     def _handle(self, consumer: str, message_id: str, fields: dict) -> None:
-        outcome = handle_scan_job(str(fields.get("scan_id", "")))
+        with self._activity_lock:
+            self._active_consumers.add(consumer)
+        try:
+            outcome = handle_scan_job(str(fields.get("scan_id", "")))
+        finally:
+            with self._activity_lock:
+                self._active_consumers.discard(consumer)
         if outcome in ("processed", "skipped", "dropped"):
             try:
                 ack(message_id)

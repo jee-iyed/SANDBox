@@ -132,6 +132,87 @@ Décisions et règles de sécurité transverses au projet. Statut : vivant.
 - Limite de taille d'upload (`MAX_UPLOAD_MB`, défaut 50) — rejet 413.
 - CORS ouvert (`*`) en dev uniquement → à restreindre avant toute exposition publique.
 
+## Secure File Access Gateway (D-16)
+
+SANDBox est une **passerelle d'accès sécurisé aux fichiers**, pas un scanner à upload manuel. La
+plateforme cliente transmet le fichier ; SANDBox le scanne avant tout accès utilisateur. Voir la
+section "Secure File Access Architecture" du README et la décision D-16 de DECISIONS.md.
+
+### Frontière de confiance
+
+- Le navigateur / client ne reçoit **jamais** le fichier original avant la décision du backend.
+- La plateforme cliente est une source **non fiable par défaut** : nom de fichier, type MIME et
+  extensions ne sont jamais utilisés pour des décisions de sécurité (le détecteur/le moteur de risque
+  du backend sont autoritaires).
+- Le backend est l'unique autorité qui produit la décision ; le frontend n'affiche que la décision.
+- **Endpoint prototype non authentifié** — en production, `/api/secure-access` doit être derrière une
+  authentification de la plateforme cliente (token d'intégration/credential). Exporté ainsi pour la
+  démonstration uniquement, jamais en exposition publique.
+
+### Cycle de vie du fichier
+
+```
+Réception (MODE 1 : bytes / MODE 2 : référence -> 501 tant que non intégré)
+  -> copie sandbox_storage/pending/<uuid>.bin (nom généré, jamais le nom client)
+  -> copie uploads/<sha256>.bin pour le pipeline M1–M5 existant (contenu-adresse)
+  -> Scan + enqueue Redis Streams (file existante) -> M1→M5 -> risk engine
+  -> observation de l'état -> transition stockage + décision d'accès
+```
+
+### Isolation du stockage
+
+- Arborescence `backend/storage/sandbox_storage/{pending,processing,authorized,quarantine}/`.
+- **Noms générés** (UUID = access id) ; le nom de fichier original n'est que **métadonnée**
+  (`original_filename`), jamais un segment de chemin (protection anti-traversal,
+  `core/security.py:safe_join`).
+- Le répertoire n'est **jamais exposé** par le serveur web / aucun montage statique.
+- Expiration TTL (`SECURE_ACCESS_TTL_MINUTES`, défaut 15) + nettoyage au démarrage et à chaque
+  lecture (état `EXPIRED`, fichier retiré).
+
+### Contrôle d'accès (machine à états bornée, fail-closed)
+
+```
+REQUESTED -> SCANNING -> {AUTHORIZED | BLOCKED | QUARANTINED | FAILED}
+ANY -> EXPIRED (après TTL) ; UNKNOWN/ERROR/TIMEOUT -> BLOCKED (jamais ALLOW)
+```
+
+- `AUTHORIZED` **uniquement** si : scan `COMPLETED` **et** verdict `safe`/`sanitized` **et**
+  TTL non expiré.
+- `BLOCKED` : verdict `suspicious`/inconnu (fail-closed), ou contenu indisponible.
+- `QUARANTINED` : verdict `malicious` — le fichier reste isolé.
+- `FAILED` / `EXPIRED` / `REQUESTED` / `SCANNING` : **définitivement non autorisés**.
+
+### Comportement fail-closed
+
+- `/content` répond `403` + raison tant que l'état n'est pas `AUTHORIZED` : analyse en cours, bloqué,
+  mis en quarantaine, échec, expiration, état inconnu.
+- Même un verdict `safe` **expiré** est `EXPIRED` → deny.
+- Un scan `completed` sans verdict exploitable → `BLOCKED` (jamais `safe` par défaut).
+- Les transitions de stockage sont best-effort (journalisées) ; la **décision** reste le seul contrôle
+  effectif — un fichier non autorisé n'est jamais servi, quel que soit son répertoire.
+
+### Comportement de quarantaine
+
+- Un accès `QUARANTINED` déplace la copie `sandbox_storage/.../quarantine/` et reste inaccessible au
+  flux utilisateur normal ; `/content` = 403 ; aucun bouton "Download Original" côté frontend.
+- La copie `uploads/<sha256>.bin` reste en place pour l'evidence/lead/post-scans (rétention du scan,
+  pas un canal de diffusion).
+
+### Contenu sécurisé (limitation honnête)
+
+- Le rendu / la sanitisation **dans** le sandbox ne sont pas implémentés. `/content` quand il est
+  autorisé renvoie un **placeholder contrôlé** (« Secure preview is not yet configured ») — jamais les
+  octets d'origine. Le frontend n'ouvre aucun document local avant la décision et ne propose aucune
+  note de téléchargement automatique.
+
+### Limites connues
+
+- SANDBox n'intercepte pas magiquement un téléchargement Gmail/Outlook/browser : il faut l'intégration
+  de la plateforme cliente. Le frontend `/secure-access` **simule** cette plateforme.
+- Pas d'AuthN/AuthZ des plateformes (prototype) — voir frontière de confiance.
+- MODE 2 (référence externe) non implémenté : pas de fetch d'URL aveugle ; interface
+  `ExternalReferenceResolver` à compléter avec une intégration authentifiée.
+
 ## À faire / décalé
 
 - AuthN/AuthZ (API keys / tenants) — à traiter en phase de productisation (M8+).

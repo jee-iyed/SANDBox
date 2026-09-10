@@ -167,6 +167,51 @@ group `sandbox:workers`) : `POST /api/scans` crée le scan en DB (QUEUED) puis *
   sandboxés (p95 15,69 s). Preuves : `validation/m6_validation/results/raw_scan_results.before_redis.json`
   et `raw_scan_results.after_redis.json`.
 
+## D-16 : SANDBox est une **Secure File Access Gateway**, pas un scanner à upload manuel
+
+### Contexte
+
+Le produit ne doit pas être un site où l'utilisateur télécharge un document puis le re-scanne à la
+main. Le modèle de sécurité correct est : la plateforme cliente (messagerie, GED, application
+d'entreprise) transmet le fichier, SANDBox le scanne **automatiquement** (M1→M5 + moteur de risque
+déterministe), et le fichier original n'est exposé **qu'après** la décision, uniquement via un canal
+de diffusion de contenu contrôlé par SANDBox.
+
+### Décision
+
+- **Nouvelle capacité "Secure File Access"** : endpoint `POST /api/secure-access` (MODE 1 : fichier
+  multipart ; MODE 2 : référence externe JSON → **501** tant que l'intégration authentifiée n'existe
+  pas — jamais de fetch d'URL aveugle), `GET /api/secure-access/{access_id}` et
+  `GET /api/secure-access/{access_id}/content`.
+- **Aucun pipeline dupliqué** : un accès sécurisé **wrap un Scan existant** et transite par la
+  **file Redis Streams actuelle** (`sandbox:scans` / `sandbox:workers`), les workers M1–M5 et le moteur
+  de risque. Le service `app/secure_access/` **observe** l'état du scan (state machine pure
+  `states.py`) et met à jour la politique de l'accès ; il n'implémente pas sa propre file/pipeline.
+- **Nouvelle table** `secure_file_access` (id, scan_id UNIQUE FK → scans ondelete CASCADE,
+  source_type, source_identifier, original_filename, status, policy_action, storage_reference,
+  expires_at, created_at, updated_at). Un champ dédié plutôt que d'abuser des colonnes de `scans` :
+  la sémantique (source plateforme, TTL, copie livrable, statut d'accès) n'appartient pas au modèle
+  Scan. Schéma auto-créé au démarrage (convention D-06, pas d'Alembic).
+- **Machine à états bornée, fail-closed** :
+  `REQUESTED → SCANNING → {AUTHORIZED | BLOCKED | QUARANTINED | FAILED}` et *tout* état → `EXPIRED`
+  après TTL. `AUTHORIZED` exige scan `COMPLETED` + verdict `safe`/`sanitized` + TTL valide ;
+  **unknown/error/timeout → BLOCKED (jamais ALLOW)** ; `malicious → QUARANTINED` ; `failed → FAILED`.
+- **Stockage temporaire isolé** : `storage/sandbox_storage/{pending,processing,authorized,
+  quarantine}/` ; fichiers nommés par UUID (access id), jamais par le nom client (métadonnée seule,
+  `sanitize_filename`). Accès via `safe_join` (anti-traversal), jamais exposé par le serveur web.
+  La copie `uploads/<sha256>.bin` (contenu-adresse) reste le support du pipeline M1–M5.
+- **Contenu sécurisé honnête** : `/content` ne sert **jamais** les octets d'origine ; en état
+  `AUTHORIZED` il renvoie un **placeholder contrôlé** (« preview not yet configured ») tant que le
+  rendu/sanitisation dans le sandbox n'existe pas. 403 partout ailleurs.
+- **AuthN** : prototype non authentifié — documenté comme tel dans README/SECURITY ; en production,
+  l'endpoint doit être derrière l'authentification de la plateforme cliente. Abstraction `ClientSource`
+  / `ExternalReferenceResolver` préparée pour l'intégration future.
+- **Tests** : unitaires 40/40 (state machine, sanitization, stockage, oversize, content) + E2E live
+  (bénin → AUTHORIZED ; suspicieux → BLOCKED/QUARANTINED avec `/content` 403 ; 404/501/422).
+- **Non-décisions** : l'IA (M7) reste hors de ce chemin (aucun appel, aucun poids dans la décision) ;
+  le scan manuel `/api/scans` est conservé pour test/démo ; port 8000 (IOC-Hunter) non touché ; pas de
+  VM ni de deuxième file ; M1–M5, risk engine, schéma Finding et workers inchangés.
+
 ## Décisions ouvertes / à confirmer
 
 ### D-13 : Débit du worker + capture argv strace (état courant pré-handoff)

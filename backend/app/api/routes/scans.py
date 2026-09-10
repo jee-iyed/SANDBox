@@ -35,8 +35,8 @@ def _load(db: Session, scan_id: uuidlib.UUID) -> Scan | None:
 
 
 @router.post("", response_model=ScanRead, status_code=202)
-async def create_scan(file: UploadFile, db: Session = Depends(get_db)):
-    data = await file.read()
+def create_scan(file: UploadFile, db: Session = Depends(get_db)):
+    data = file.file.read()
     max_bytes = settings.max_upload_mb * 1024 * 1024
     if not data:
         raise HTTPException(status_code=400, detail="Empty file")

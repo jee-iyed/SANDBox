@@ -9,3 +9,6 @@ docker>=7.0
 redis>=5.0
 yara-python==4.5.4
 oletools==0.60.2
+PyMuPDF>=1.24
+Pillow>=10.0
+pyzbar>=0.1.9

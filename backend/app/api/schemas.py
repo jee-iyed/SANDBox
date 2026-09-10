@@ -4,7 +4,13 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict
 
-from app.db.models import Action, ScanStatus, Severity, Verdict
+from app.db.models import (
+    Action,
+    ScanStatus,
+    SecureAccessStatus,
+    Severity,
+    Verdict,
+)
 
 
 class FileRead(BaseModel):
@@ -65,3 +71,45 @@ class AnalysisResultRead(BaseModel):
 class ScanDetail(ScanRead):
     findings: list[FindingRead] = []
     analysis_results: list[AnalysisResultRead] = []
+
+
+class ExternalSourcePayload(BaseModel):
+    """MODE 2 - secure file reference (no bytes in this request).
+
+    ``external_reference`` retrieval is NOT implemented yet: the endpoint
+    answers 501 until a real, authenticated client-platform integration
+    exists. SANDBox never blindly fetches URLs.
+    """
+
+    source_type: str = "external_reference"
+    source_token: str
+    filename: str = "unnamed"
+    source_identifier: Optional[str] = None
+
+
+class SecureAccessRead(BaseModel):
+    id: uuid.UUID
+    scan_id: uuid.UUID
+    source_type: str
+    source_identifier: Optional[str] = None
+    original_filename: str
+    status: SecureAccessStatus
+    policy_action: Optional[Action] = None
+    verdict: Optional[Verdict] = None
+    risk_score: Optional[float] = None
+    preview_available: bool = False
+    expires_at: datetime
+    created_at: datetime
+    updated_at: datetime
+
+
+class SecureContentRead(BaseModel):
+    """Secure-content endpoint response (never the original bytes today)."""
+
+    authorized: bool
+    content_kind: str
+    message: str
+    deny_reason: Optional[str] = None
+    filename: Optional[str] = None
+    mime_type: Optional[str] = None
+    size_bytes: Optional[int] = None

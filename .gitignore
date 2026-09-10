@@ -8,3 +8,9 @@ node_modules/
 dist/
 .pytest_cache/
 .coverage
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

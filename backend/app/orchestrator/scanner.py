@@ -10,6 +10,7 @@ from app.analyzers.dynamic.analyzer import DynamicAnalyzer
 from app.analyzers.static.analyzer import StaticAnalyzer
 from app.analyzers.static.structural import StructuralAnalyzer
 from app.analyzers.yara.analyzer import YaraAnalyzer
+from app.analyzers.qr.analyzer import QRAnalyzer
 
 
 def _analyzers() -> list:
@@ -19,6 +20,7 @@ def _analyzers() -> list:
         StructuralAnalyzer(),
         YaraAnalyzer(),
         DynamicAnalyzer(),
+        QRAnalyzer(),
     ]
 
 

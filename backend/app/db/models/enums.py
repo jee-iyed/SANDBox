@@ -35,3 +35,21 @@ class AnalysisStatus(str, enum.Enum):
     OK = "ok"
     ERROR = "error"
     SKIPPED = "skipped"
+
+
+class SecureAccessStatus(str, enum.Enum):
+    """Secure File Access state machine (see DECISIONS.md D-16).
+
+    Bounded, deterministic, fail-closed. An access is only ever AUTHORIZED
+    when the underlying scan completed with an allowed verdict AND the access
+    has not expired. Every other path (unknown, running, failed, expired or a
+    suspicious/malicious verdict) resolves to a non-authorized state.
+    """
+
+    REQUESTED = "requested"
+    SCANNING = "scanning"
+    AUTHORIZED = "authorized"
+    BLOCKED = "blocked"
+    QUARANTINED = "quarantined"
+    FAILED = "failed"
+    EXPIRED = "expired"

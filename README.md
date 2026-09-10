@@ -75,8 +75,80 @@ développée phase par phase selon un brief en 18 phases. Volume cible : ~5 000 
 - Validation supplémentaire M6 : [`validation/m6_validation/`](validation/m6_validation/) (corpus 90
   fichiers, scripts de benchmark, matrices de détection,
   [profilage du cycle de vie sandbox](validation/m6_validation/results/SANDBOX_LIFECYCLE_PROFILE.md),
-  benchmark avant/après file Redis `raw_scan_results.before_redis.json` /
-  `raw_scan_results.after_redis.json`).
+benchmark avant/après file Redis `raw_scan_results.before_redis.json` /
+   `raw_scan_results.after_redis.json`).
+- **Secure File Access validation : PASS** — `test_secure_access.py` 40/40 (state machine
+  fail-closed, sanitization, storage isolé, oversize, content placeholder) + E2E `e2e_secure_access.py`
+  (bénin → AUTHORIZED, suspicieux → BLOCKED/QUARANTINED jamais accessible en /content, 404/501/422).
+  Voir [D-16](DECISIONS.md).
+
+## Secure File Access Architecture (Gateway)
+
+SANDBox n'est **pas** un site où l'utilisateur télécharge puis re-scanne des fichiers à la main. Le
+produit est une **Secure File Access Gateway** : une plateforme cliente (messagerie, GED, application
+d'entreprise) transmet le fichier ; SANDBox le scanne **automatiquement** (M1 → M5, file Redis) avant
+que l'utilisateur ne puisse y accéder de façon sécurisée.
+
+### Modèle cible (pas le modèle historique)
+
+```
+Modèle à éviter :
+    Email → Downloads/invoice.pdf → machine locale → ouverture dans l'appli locale avant analyse
+
+Modèle cible :
+    Plateforme cliente (Email / GED / App)
+        │  clic "Open Securely" / "View"
+        ▼
+    SANDBox Secure File Access Gateway (API :8001)
+        │  POST /api/secure-access  (fichier OU référence sécurisée)
+        ▼
+    Scan automatique (Scan + Redis Streams sandbox:scans → worker → M1→M5)
+        ▼
+    Moteur de risque déterministe → verdict/action
+        ▼
+    SAFE            → AUTHORIZED       → preview sécurisée (placeholder contrôlé)
+    SUSPICIOUS      → BLOCKED          → analyse visible, fichier jamais exposé
+    MALICIOUS       → QUARANTINED      → fichier isolé en quarantaine
+    FAILED/EXPIRED  → DENY (fail-closed, jamais ALLOW)
+```
+
+Le fichier original n'est **jamais** téléchargé sur la machine de l'utilisateur avant la décision ; le
+frontend affiche uniquement la décision produite par le backend.
+
+### Cycle de vie d'un accès sécurisé
+
+```
+SecureAccess ──wraps──> Scan ──enqueue──> Redis Streams (existant) ──> worker ──> M1–M5 ──> Risk/verdict
+                                                                                            │
+      POLICY updated (Service observe le scan ; aucun pipeline dupliqué) <──────────────────┘
+```
+
+Le service `app/secure_access/` **observe** l'état du scan (state machine `states.py`) ; il ne
+réimplémente ni la file, ni le pipeline, ni le moteur de risque.
+
+- **MODE 1 — upload** : la plateforme envoie le fichier en `multipart/form-data`.
+- **MODE 2 — référence externe** : JSON `{source_type:"external_reference", source_token, filename}`.
+  La récupération externe authentifiée n'**est pas implémentée** (réponse 501) ; SANDBox ne fait jamais
+  de fetch aveugle d'URL. Interface : `ExternalReferenceResolver`.
+- **Stockage temporaire** : `backend/storage/sandbox_storage/{pending,processing,authorized,quarantine}/`
+  (noms = UUID générés, jamais le nom client ; jamais exposé par le serveur web). Une copie
+  `uploads/<sha256>.bin` (logique scan existante) alimente le pipeline M1–M5.
+- **Contenu sécurisé** : `/content` ne renvoie aujourd'hui qu'un **placeholder** contrôlé
+  (« Secure preview is not yet configured ») — le rendu/sanitisation dans le sandbox n'est pas encore
+  implémenté, et le projet ne prétend pas ouvrir localement le document original.
+- **Authentification** : **endpoint prototype non authentifié** ; en production il DOIT être derrière
+  une passerelle authentifiée de la plateforme cliente (token d'intégration).
+- **Limitation** : SANDBox ne peut pas intercepter magiquement un téléchargement Gmail/Outlook ; une
+  intégration réelle de la plateforme cliente est requise. Les écrans React (`/secure-access`)
+  **simulent** cette plateforme à des fins de démonstration du contrat.
+
+### API
+
+| Méthode | Route | Description |
+|---|---|---|
+| POST | `/api/secure-access` | Crée la demande (MODE 1 fichier / MODE 2 référence → 501) et enfile le scan |
+| GET | `/api/secure-access/{access_id}` | État courant + décision (reconciliation fail-closed) |
+| GET | `/api/secure-access/{access_id}/content` | Contenu sécurisé (placeholder) **uniquement si AUTHORIZED** |
 
 ## Démarrage rapide
 
@@ -128,6 +200,8 @@ cd backend
 .\.venv\Scripts\python.exe tests\smoke_test.py http://127.0.0.1:8001   # flux async complet M1
 .\.venv\Scripts\python.exe tests\test_redis_queue.py                  # file Redis (unitaire, sans Docker ni serveur)
 .\.venv\Scripts\python.exe tests\e2e_redis_queue.py http://127.0.0.1:8001 # file Redis (E2E : enqueue, terminaison, duplicata)
+.\.venv\Scripts\python.exe tests\test_secure_access.py                # Secure File Access (unitaire, sans serveur)
+.\.venv\Scripts\python.exe tests\e2e_secure_access.py http://127.0.0.1:8001 # Secure File Access (E2E : bénin/suspicieux + /content fail-closed)
 .\.venv\Scripts\python.exe scripts\bench_static.py               # benchmark M4 (mean/median/p95)
 
 # Inspection/version YARA
@@ -144,3 +218,35 @@ cd backend
 | POST | `/api/scans` | Upload + scan : `202` + `{status: queued}` |
 | GET | `/api/scans` | Liste des scans |
 | GET | `/api/scans/{id}` | Détail d'un scan + findings |
+| POST | `/api/secure-access` | Secure File Access : fichier (MODE 1) ; référence externe (MODE 2 → 501) |
+| GET | `/api/secure-access/{access_id}` | État + décision de l'accès sécurisé |
+| GET | `/api/secure-access/{access_id}/content` | Contenu sécurisé si AUTHORIZED (placeholder contrôlé) |
+| GET | `/api/system/workers` | Métriques non sensibles : workers, file Redis, débit/latence sur fenêtre glissante |
+
+## Parallel workers and QR analysis
+
+Workers process independent scans in parallel. M1–M5 execute sequentially within each worker.
+
+`POST /api/scans` stores the attachment under controlled storage and adds its ID to the
+Redis Stream `sandbox:scans`. Consumers in the `sandbox:workers` group claim independent
+jobs with `XREADGROUP`; stale pending jobs are recovered with `XAUTOCLAIM`; `XACK` is only
+sent after a terminal scan state. Set `WORKER_MAX_THREADS` to configure the bounded number
+of in-process consumers (start comparison runs at 2 through 7; do not assume seven is best).
+
+After M5, `QRAnalyzer` visually examines PDF pages using PyMuPDF rendering, Pillow and
+pyzbar. Page count, rendering resolution, pixel count, decoded-code count and elapsed time
+are bounded by `QR_*` settings. The structured result contains detected payloads and URLs.
+It never performs network reputation lookup and never changes the deterministic risk verdict.
+Future reputation enrichment must remain optional, timeout-bounded and cacheable. No LLM,
+Hermes runtime, Ollama runtime or model download is part of this production path.
+
+### Performance methodology
+
+Use the same corpus and security configuration for each `WORKER_MAX_THREADS` value of 2, 3,
+4, 5, 6 and 7. Record completed scans—not submission time—plus elapsed time, files/minute,
+files/second, success/failure counts, average and p95 latency, Redis pending entries, CPU and
+memory. The dashboard's throughput is a live five-minute rolling value; it is not benchmark
+history. The saved M6 result is 27 files/minute and does **not** demonstrate the 350
+files/minute target. Docker sandbox lifecycle remains the likely primary bottleneck until a
+controlled scalability run establishes otherwise; isolation controls must not be disabled to
+meet the target.

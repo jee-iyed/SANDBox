@@ -49,6 +49,11 @@ class Settings(BaseSettings):
 
     storage_dir: Path = BASE_DIR / "storage"
 
+    # Secure File Access gateway (see DECISIONS.md D-16). TTL bounds how long a
+    # request may be delivered/browsed after its access is granted. The
+    # deliverable copy lives under sandbox_storage/ (never web-exposed).
+    secure_access_ttl_minutes: int = 15
+
     # Sandbox (M3) - infra hardened, see analyzers/sandbox
     sandbox_enabled: bool = True
     sandbox_image: str = "docscan/sandbox-runner:latest"
@@ -71,9 +76,18 @@ class Settings(BaseSettings):
     dynamic_max_events: int = 2000
     dynamic_max_output_mb: int = 1
 
+    # QR visual analysis is deliberately bounded. It is evidence collection
+    # only; QR payloads never determine a verdict on their own.
+    qr_enabled: bool = True
+    qr_max_pages: int = 5
+    qr_render_dpi: int = 144
+    qr_max_pixels: int = 4_000_000
+    qr_max_codes: int = 20
+    qr_timeout_s: float = 10.0
+
     # Bounded Redis scan consumers (see DECISIONS.md D-14). The queue replaced
     # the old DB-poll dispatch; worker_max_threads bounds concurrency.
-    worker_max_threads: int = 4
+worker_max_threads: int = 4
 
     # PROVISIONAL risk-thresholds - NOT confirmed by client (§8, see DECISIONS.md)
     risk_safe_max: float = 0.0
@@ -92,6 +106,11 @@ class Settings(BaseSettings):
     @property
     def uploads_dir(self) -> Path:
         return self.storage_dir / "uploads"
+
+    @property
+    def secure_storage_root(self) -> Path:
+        """Secure File Access temporary storage (pending/authorized/quarantine)."""
+        return self.storage_dir / "sandbox_storage"
 
     @property
     def quarantine_dir(self) -> Path:

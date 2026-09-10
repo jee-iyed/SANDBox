@@ -22,5 +22,21 @@ services:
     ports:
       - "6379:6379"
 
+  # SANDBox web client (React + Vite). Serves on localhost:3000 and must not
+  # use port 8000 (IOC-Hunter). The browser talks to the backend directly on
+  # http://localhost:8001 (backend CORS is allow_origins=["*"]).
+  frontend:
+    build:
+      context: ./frontend
+    container_name: sandbox_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_BASE_URL: http://localhost:8001
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+
 volumes:
   pgdata:
