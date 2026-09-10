@@ -9,6 +9,7 @@ import { ScanPipeline } from '../components/ScanPipeline';
 import { FindingsSection } from '../components/FindingsSection';
 import { AnalysisResultsSection } from '../components/AnalysisResultsSection';
 import { QrAnalysisSection } from '../components/QrAnalysisSection';
+import { ThreatIntelSection } from '../components/ThreatIntelSection';
 import { AiPlaceholder } from '../components/AiPlaceholder';
 import { Alert } from '../components/Alert';
 import { SecureAccessSection } from '../components/SecureAccessSection';
@@ -44,6 +45,7 @@ export function ScanDetail() {
   const [reloadNonce, setReloadNonce] = useState(0);
   const [copied, setCopied] = useState(false);
   const copyTimer = useRef<number | undefined>(undefined);
+  const graceTicks = useRef(-1);
 
   useEffect(() => {
     if (!accessParam) {
@@ -96,7 +98,13 @@ export function ScanDetail() {
       setDetail(data);
       setError(null);
       setLoading(false);
-      if (isTerminal(data.status)) {
+      if (data.status === 'completed') {
+        const hasThreatIntel = (data.analysis_results ?? []).some((item) => item.analyzer === 'threat_intel');
+        if (hasThreatIntel || graceTicks.current === 0) {
+          return;
+        }
+        graceTicks.current = graceTicks.current === -1 ? 4 : graceTicks.current - 1;
+        timer = window.setTimeout(tick, POLL_INTERVAL_MS);
         return;
       }
       attempts += 1;
@@ -110,6 +118,7 @@ export function ScanDetail() {
     setDetail(null);
     setLoading(true);
     setError(null);
+    graceTicks.current = -1;
     void tick();
 
     return () => {
@@ -307,6 +316,7 @@ function ResultBlock({
 
       <FindingsSection findings={detail.findings} />
       <QrAnalysisSection results={detail.analysis_results} />
+      <ThreatIntelSection results={detail.analysis_results} findings={detail.findings} />
       <AnalysisResultsSection results={detail.analysis_results} />
       <AiPlaceholder />
     </>

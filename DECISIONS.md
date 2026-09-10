@@ -212,6 +212,46 @@ de diffusion de contenu contrôlé par SANDBox.
   le scan manuel `/api/scans` est conservé pour test/démo ; port 8000 (IOC-Hunter) non touché ; pas de
   VM ni de deuxième file ; M1–M5, risk engine, schéma Finding et workers inchangés.
 
+## M8 — Threat Intelligence (enrichissement, non décisionnel)
+
+### D-17 : Couche TI (Threat Intelligence) — enrichissement externe post-décision, fail-safe, désactivée par défaut
+La couche TI (`backend/app/threat_intel/`) enrichit un scan **après** que le verdict/action/risque
+déterministes (M1–M5 + moteur de risque) ont été persistés. Elle ne participe **jamais** à la décision.
+- **Non-décisionnelle et post-décision** : le hook worker (`workers/processor.py`) appelle
+  `TiService.enrich_scan()` uniquement après le succès de `run_pipeline`, dans un `try/except` qui
+  journalise `TI_ERROR` sans échouer ni réverter le scan. Rien dans `_decide`, `SandboxPolicy` ou les
+  verdicts ne lit la TI.
+- **Désactivée par défaut** : `TI_ENABLED=false` (± `ABUSEIPDB_*`, `VIRUSTOTAL_*`) ; désactivé, le
+  pipeline M1–M5 est byte-identique (aucune requête DB, aucun appel réseau). Clés d'API **env-only**,
+  jamais commitées, jamais loggées, jamais exposées au frontend.
+- **Extraction bornée et privée** : SHA-256 du fichier, URLs QR (payload `qr_analysis`), et indications
+  déjà présentes dans les findings (URLs/domaines/IP de type réseau). Seules des données **déjà
+  observées localement** sortent — jamais les octets du fichier, jamais du texte libre. Déduplication
+  par scan, plafond `ti_max_indicators_per_scan` (20).
+- **Fournisseurs = réputation uniquement** : AbuseIPDB `/check` (jamais REPORT), VirusTotal v3 en lecture
+  (SHA-256/URL/domaine/IP). **Aucune soumission** : pas d'envoi de fichier ni d'auto-submit d'URL (lookup
+  URL via l'id déterministe `base64url(url)` (base64 URL-safe non padée de l'URL) ; 404 → `not_found`). Aucun lookup d'IP privée/réservée.
+- **Limiteur centralisé Redis** (`rate_limit.py`, singleton partagé par tous les workers) : spacing
+  minimum + fenêtre/minute + compteur/jour + 429 `Retry-After` → au plus 1 retry borné, jamais de
+  boucle. Cache partagé Redis (`ti:cache:{provider}:{type}:{indicator}`, TTL 3600) avec repli mémoire
+  borné ; les échecs Redis ne sont jamais fatals.
+- **Modèle de données inchangé** : findings normés `ti_{provider}_{type}` (sévérité INFO, source
+  `threat_intel`, evidence **bornée et énumérée**, confiance bornée) + une ligne `analysis_results`
+  (analyzer `threat_intel`, payload = compteurs par statut, **aucune clé API, aucun JSON brut
+  fournisseur**). Aucune migration de schéma.
+- **Fail-safe** : chaque lookup renvoie un statut borné (`success/cached/not_found/unavailable/
+  rate_limited/error/skipped`) ; une panne n'est **jamais** mappée à malveillant. `enrich_scan` ne
+  lève jamais ; échec de persistance → rollback borné + résumé d'erreur.
+- **Frontend** : section « Threat Intelligence » affichée seulement si une ligne `threat_intel` existe ;
+  « indisponible » sinon (jamais alarmiste), aucune clé, aucun JSON brut.
+- **Limites honnêtes** : l'**API publique VirusTotal n'est pas adaptée à une production commerciale**
+  (algorithmes, pas de SLA) — limites conservatrices 4/min, 500/jour ; une clé premium ne changera que
+  des seuils configurables. L'IP AbuseIPDB libre est plafonnée à 1000 checks/jour. Le repli mémoire du
+  cache/limiteur est par-processus (Redis requis pour partager l'état entre processus).
+- **Tests** : `tests/test_ti_layer.py` (31/31, providers mocks via httpx.MockTransport, cache/limiteur
+  sur store mémoire factice, aucun réseau/Redis/clé réelle) + `tests/live_ti_validation.py` opt-in
+  (≤ 2 requêtes réelles par fournisseur, indicateurs bénins, budget imprimé).
+
 ## Décisions ouvertes / à confirmer
 
 ### D-13 : Débit du worker + capture argv strace (état courant pré-handoff)

@@ -240,6 +240,32 @@ It never performs network reputation lookup and never changes the deterministic 
 Future reputation enrichment must remain optional, timeout-bounded and cacheable. No LLM,
 Hermes runtime, Ollama runtime or model download is part of this production path.
 
+## Threat Intelligence enrichment (D-17, optional)
+
+TI runs **after** the deterministic verdict/action/risk are persisted and **never** re-enters
+the decision. It is **disabled by default** (`TI_ENABLED=false`) — with TI off, the M1–M5
+pipeline is byte-identical (no DB work, no network).
+
+- **Indicators** (only data already observed locally, deduplicated, capped at 20/scan):
+  the file's SHA-256, QR-decoded URLs (`qr_analysis` payload), and IP/domain/URL indicators
+  present in existing findings. File bytes are never sent anywhere.
+- **Providers (reputation lookups only)**: AbuseIPDB `/check` (never REPORT) and VirusTotal
+  API v3 reads (SHA-256/URL/domain/IP). No file upload, no automatic URL submission
+  (URL lookups use the deterministic `base64url(url)` id — unpadded URL-safe base64 of the URL itself;
+  404 → `not_found`).
+- **Fail-safe**: every lookup maps to a bounded status; a provider failure is never mapped to
+  *malicious* and never fails the scan. Timeouts/limits are bounded; max **1** retry; a shared
+  Redis rate limiter + Redis cache (TTL 3600, in-process fallback) enforce a system-wide budget.
+- **Stored evidence only**: normalized `ti_{provider}_{type}` findings (severity INFO) +
+  one `analysis_results` row (payload = per-status counters). API keys stay in the request
+  headers, env-only, never logged or exposed to the frontend.
+- **Configure**: set `TI_ENABLED=true`, `ABUSEIPDB_API_KEY`, `VIRUSTOTAL_API_KEY` (see
+  `.env.example`). Conservative public-API limits: VT 4/min & 500/day, AbuseIPDB 1000/day.
+  The VirusTotal **public API is not for commercial production** (D-17); a licensed key only
+  changes these settings.
+- **Verify**: `backend\tests\test_ti_layer.py` (31/31, mocked) then
+  `backend\tests\live_ti_validation.py` (opt-in, ≤ 2 real requests per provider, benign output).
+
 ### Performance methodology
 
 Use the same corpus and security configuration for each `WORKER_MAX_THREADS` value of 2, 3,

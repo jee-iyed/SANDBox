@@ -115,6 +115,36 @@ Décisions et règles de sécurité transverses au projet. Statut : vivant.
   activate `redis_username`/`redis_password`, réseau dédié, **jamais de secret dans les messages**.
   Voir D-14 dans `DECISIONS.md`.
 
+## M8 — Threat Intelligence (enrichissement, D-17)
+
+Principes de sécurité de la couche `backend/app/threat_intel/` :
+
+- **Post-décision et non-décisionnelle** : TI exécutée par le worker **après** la persistance du
+  verdict/action/risque déterministes ; aucun code de décision (*_decide*, SandboxPolicy, risk engine)
+  ne lit la TI. Un échec TI ne peut ni échouer ni réverter un scan.
+- **Désactivée par défaut** (`TI_ENABLED=false`). Sans clé ou avec clé vide → aucun provider instancié,
+  aucun appel ; le pipeline M1–M5 reste byte-identique.
+- **Données sortantes minimales** : seuls SHA-256, URLs QR et IP/domaines déjà observés localement,
+  normés, dédupliqués et plafonnés (20/scan). **Jamais les octets du fichier**, jamais de texte libre,
+  jamais d'URL non observée. Aucune IP privée/réservée/locale n'est interrogée.
+- **Aucune soumission** : pas d'upload de fichier (VirusTotal SHA-256 en lecture seule), pas
+  d'auto-submit d'URL (id déterministe `base64url(url)` — base64 URL-safe non padée de l'URL ; 404 → `not_found`), pas de REPORT
+  AbuseIPDB — lecture seule stricte.
+- **Fail-safe / anti-fausse-alerte** : chaque lookup produit un statut borné ; **une panne n'est jamais
+  mappée à *malicious***. Timeouts bornés (3 s AbuseIPDB / 4 s VT), max 1 retry avec `Retry-After`
+  borné, jamais de boucle de retry.
+- **Clés d'API** : exclusivement en environnement (`ABUSEIPDB_API_KEY`, `VIRUSTOTAL_API_KEY`),
+  envoyées uniquement dans l'en-tête de requête au fournisseur, **jamais loggées** (journal `TI_*`
+  = métadonnées), jamais persistées (evidence/payload énumérés, pas de JSON brut fournisseur), jamais
+  exposées au frontend.
+- **Limiteur + cache partagés** : budget global centralisé dans Redis (`ti:rl:*` / `ti:cache:*`) —
+  spacing minimum, fenêtre/minute, compteur/jour, TTL 3600 ; repli mémoire borné en cas d'outage Redis
+  (limitation documentée : par-processus). Les échecs de cache/limiteur ne sont jamais fatals.
+- **Anti-SSRF / anti-exfil** : aucun fetch d'URL arbitraire ; pas de contenu téléchargé depuis le réseau ;
+  les requêtes sortantes sont strictement des lookups de réputation d'indicateurs déjà connus.
+- **VirusTotal API publique ≠ production commerciale** : limites conservatrices configurables
+  (4/min, 500/jour) ; une clé premium/licensée ne modifie que des seuils de configuration.
+
 ## Secrets / artefacts malveillants
 
 - **Jamais de secrets/clés commités** (`.env` est ignoré ; seul `.env.example` est versionné).

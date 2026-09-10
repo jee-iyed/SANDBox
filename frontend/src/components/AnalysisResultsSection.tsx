@@ -9,6 +9,8 @@ const ANALYZER_LABELS: Record<string, string> = {
   structural_analysis: 'Structural Analysis',
   yara: 'YARA',
   sandbox: 'Sandbox',
+  qr_analysis: 'QR Analysis',
+  threat_intel: 'Threat Intelligence',
 };
 
 function statusTone(status: string): 'ok' | 'warn' | 'err' {

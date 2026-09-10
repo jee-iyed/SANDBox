@@ -8,8 +8,14 @@ Three PDFs (text + embedded QR images), written to backend/storage/qr_test_corpu
                       classifies it SUSPICIOUS (static_eicar_signature: LOW*0.95).
   qr_multiple.pdf   - benign doc text + 3 QR codes on one page (synthetic .invalid URLs)
 
+  qr_ti_real_url.pdf - benign doc text + ONE QR encoding a REAL indicator URL
+  (http://59.96.141.74:37653/bin.sh) used by the TI live end-to-end test. The
+  URL is never fetched by SANDBox; it exists strictly as a decodable string so
+  the Threat Intelligence provider (VirusTotal reputation lookup) can enrich it.
+
 Fixtures only. Real-world TLDs are intentionally avoided; only HP-invalid/test
-URLs are used. Production logic and M1-M5 are not touched.
+URLs are used (qr_ti_real_url.pdf is the single exception: an indicator VT has
+already analyzed). Production logic and M1-M5 are not touched.
 
 PDFs are saved with deflate=False so the EICAR marker stays as raw bytes and the
 static analyzer sees it (byte-level rules).
@@ -93,12 +99,33 @@ def build_all() -> list[Path]:
     return [OUT_DIR / "qr_safe.pdf", OUT_DIR / "qr_suspicious.pdf", OUT_DIR / "qr_multiple.pdf"]
 
 
+def build_ti_real_url() -> Path:
+    """Build ONLY qr_ti_real_url.pdf (TI end-to-end fixture, one QR URL).
+
+    Separate builder so regenerating the TI fixture never rewrites the other
+    corpus PDFs. The encoded URL is a real indicator string - never contacted;
+    ``QRAnalyzer`` only decodes it and the TI layer forwards it as an exact,
+    bounded VirusTotal URL identifier.
+    """
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    doc, page = _new_doc()
+    page.insert_text((72, 64), "SANDBox QR test fixture - TI real URL sample.", fontsize=13)
+    page.insert_text((72, 84), "Embedded QR references a real analyzed indicator.", fontsize=11)
+    _emit(doc, "http://59.96.141.74:37653/bin.sh", page, x=72, y=140)
+    path = OUT_DIR / "qr_ti_real_url.pdf"
+    _save(doc, path)
+    return path
+
+
 def main() -> int:
     paths = build_all()
+    ti = build_ti_real_url()
+    paths.append(ti)
     for p in paths:
         data = p.read_bytes()
         marker = b"X5O!P%@AP[4\\PZX54" in data
-        print(f"{p.name}: size={len(data)} bytes eicar_raw={marker}", flush=True)
+        ti_url = b"59.96.141.74:37653" in data if p.name == ti.name else False
+        print(f"{p.name}: size={len(data)} bytes eicar_raw={marker} ti_url_present={ti_url}", flush=True)
     return 0
 
 

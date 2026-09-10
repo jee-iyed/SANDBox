@@ -15,6 +15,7 @@ from app.queue.service import (
     read_new,
     reclaim_stale,
 )
+from app.threat_intel.service import run_threat_intel
 
 logger = logging.getLogger(__name__)
 
@@ -60,6 +61,13 @@ def handle_scan_job(scan_id_raw: str) -> str:
         logger.info("SCAN_STARTED scan_id=%s", scan_id)
         try:
             run_pipeline(db, scan)
+            # TI enrichment is bounded and post-decision: it runs only after a
+            # successful deterministic pipeline and can never fail/revert the
+            # scan (see DECISIONS.md D-17). Disabled by default.
+            try:
+                run_threat_intel(db, scan)
+            except Exception:  # noqa: BLE001 - TI must never fail a scan
+                logger.exception("TI_ERROR scan_id=%s", scan_id)
             logger.info("SCAN_COMPLETED scan_id=%s", scan_id)
         except Exception as exc:  # noqa: BLE001 - worker must not die
             logger.exception("SCAN_FAILED scan_id=%s", scan_id)
